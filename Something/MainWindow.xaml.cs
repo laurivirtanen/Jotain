@@ -27,10 +27,12 @@ namespace Something
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
         private bool IsTest = false;
+        public double RotateTest { get; set; }
         
         public MainWindow()
         {
             InitializeComponent();
+            RotateTest = 0;
             timer.Tick += new EventHandler(MovePlayer);
             InitStuff();
             timer.Interval = TimeSpan.FromMilliseconds(1);
@@ -82,7 +84,7 @@ namespace Something
         {
 
             TimeTest.Content = DateTime.Now.ToLongTimeString();
-            testi.Margin = new Thickness(testi.Margin.Left, testi.Margin.Top+1, 0, 0);
+            //testi.Margin = new Thickness(testi.Margin.Left, testi.Margin.Top+1, 0, 0);
             mapBlocks.RemoveAt(8);
             if (CollisionTest(testi)) { }
             else { testi.Margin = new Thickness(testi.Margin.Left, testi.Margin.Top -1, 0, 0); }
@@ -92,7 +94,7 @@ namespace Something
             {
                 
                 rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left+3, rctPlayer.Margin.Top, 0, 0);
-                if (CollisionTest(rctPlayer)) { Console.WriteLine(IsTest); }
+                if (CollisionTest(rctPlayer)) { Console.WriteLine(IsTest); rctSkew.AngleX += 0.15; rctSkew2.AngleX += 0.15; } // shadow skew movement test
                 else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left - 3, rctPlayer.Margin.Top, 0, 0);}
                 
             }
@@ -100,24 +102,25 @@ namespace Something
             {
                 
                 rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left-3, rctPlayer.Margin.Top, 0, 0);
-                if (CollisionTest(rctPlayer)) { Console.WriteLine(IsTest  ); }
+                if (CollisionTest(rctPlayer)) { Console.WriteLine(IsTest  ); rctSkew.AngleX -= 0.15; rctSkew2.AngleX -= 0.15; }// shadow skew movement test
                 else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left +3, rctPlayer.Margin.Top, 0, 0);  }
 
 
             }
 
+
+            //moves the red block
             if (Keyboard.IsKeyDown(Key.E))
             {
                 if (IsTest == true)
                 {
                     rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left + 5, rctPlayer.Margin.Top, 0, 0);
-                    testi.Margin = new Thickness(testi.Margin.Left + 5, testi.Margin.Top-15, 0, 0);
+                    testi.Margin = new Thickness(testi.Margin.Left + 355, testi.Margin.Top, 0, 0);
                     if (CollisionTest(rctPlayer)) { Console.WriteLine("sup"); }
                     else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left -5, rctPlayer.Margin.Top, 0, 0); }
                 }
-
             }
-
+            
             if (Keyboard.IsKeyDown(Key.Space))
             {
                 rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top-3, 0, 0);
@@ -131,6 +134,7 @@ namespace Something
                 if (CollisionTest(rctPlayer)) {  }
                 else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top -3, 0, 0); }
             }
+
 
 
         }
@@ -189,9 +193,14 @@ namespace Something
 
         }
 
-        private void Window_KeyDown(object sender, EventArgs e)
+        // rotates the canvas 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-
+            if(e.Key == Key.Q)
+            {
+                RotateTest += 45;
+                cnvRotate.Angle = RotateTest;
+            }
         }
     }
 }

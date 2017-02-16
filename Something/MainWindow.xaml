@@ -7,19 +7,23 @@
         mc:Ignorable="d"
         KeyDown="Window_KeyDown"
         Title="MainWindow"  Width="640" Height="400">
-    <Canvas x:Name="cnvBase" Opacity="1" Background="White">
-            <Rectangle x:Name="rctBottom" Margin="0,336,0,0" Height="32" Width="640" Fill="Black"/>
+    <Canvas x:Name="cnvBase"  Opacity="1" Background="White" RenderTransformOrigin="0.5,0.5">
+        <Canvas.RenderTransform>
+            <RotateTransform x:Name="cnvRotate"/>
+        </Canvas.RenderTransform>
+        <Rectangle x:Name="rctBottom" Margin="0,336,0,0" Height="32" Width="640" Fill="Black"/>
         <Rectangle x:Name="rctBottomStop" Margin="444,304,0,0"  Height="32" Width="128" Fill="Black"/>
         <Rectangle x:Name="rctMid" Margin="250,200,0,0" Height="32" Width="128" Fill="Black"/>
         <Rectangle x:Name="rctRight" Margin="560,200,0,0" Height="32" Width="70" Fill="Black"/>
 
-        <Rectangle x:Name="rctPlayer" Fill="Black" Margin="0,304,0,0" Width="32" Height="32"/>
+        <Rectangle x:Name="rctPlayer" Fill="Black"  Margin="292,304,0,0" Width="32" Height="32" >
+        </Rectangle>
         <Rectangle x:Name="rctMid_Copy" Margin="0,200,0,0"  Height="32" Width="128" Fill="Black"/>
         <Rectangle x:Name="Light" Margin="0,0,0,0" Height="200" Width="128" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="1,1">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform AngleX="55"/>
+                    <SkewTransform x:Name="rctSkew2" AngleX="0"/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
@@ -29,15 +33,14 @@
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform AngleX="55"/>
+                    <SkewTransform x:Name="rctSkew" AngleX="0"/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-            <RadioButton x:Name="radioButton" Width="16" Margin="310,260,0,0" Background="White" BorderBrush="Black"/>
-        <Rectangle x:Name="LeftWall" Margin="-5,0,0,0" Height="380" Width="5" Fill="Blue"/>
-        <Rectangle x:Name="RightWall" Margin="630,0,0,0" Height="380" Width="5" Fill="Blue"/>
+        <Rectangle x:Name="LeftWall" Margin="-50,0,0,0" Height="380" Width="50" Fill="Black"/>
+        <Rectangle x:Name="RightWall" Margin="630,0,0,0" Height="380" Width="50" Fill="Black"/>
         <Rectangle x:Name="Ceiling" Height="32" Width="640" Fill="Black"/>
         <Rectangle x:Name="testi"  Height="32" Width="32" Fill="#FFA21E1E" Margin="32,168,0,0"/>
 
