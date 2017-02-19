@@ -16,6 +16,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Something;
 
+/// <summary>
+/// Song from (https://soundcloud.com/laserost)  (http://www.youtube.com/user/Manofunctional).
+/// </summary>
+
+
 namespace Something
 {
     /// <summary>
@@ -26,8 +31,20 @@ namespace Something
 
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
+        List<SkewTransform> Lights = new List<SkewTransform>();
+        
+
+
+
+
+
         private bool IsTest = false;
+        private bool IsPaused = false;
+
+        private double jumping = 0;
+
         public double RotateTest { get; set; }
+
         
         public MainWindow()
         {
@@ -54,6 +71,15 @@ namespace Something
             mapBlocks.Add(Ceiling);
             mapBlocks.Add(rctRight);
             mapBlocks.Add(testi);
+            
+
+            Lights.Add(rctSkew);
+            Lights.Add(rctSkew1);
+            Lights.Add(rctSkew2);
+
+
+
+            musicPlayer.Play();
 
 
         }
@@ -84,6 +110,24 @@ namespace Something
         {
 
             TimeTest.Content = DateTime.Now.ToLongTimeString();
+
+            if (jumping >= 35)
+            {
+                jumping = 0;
+                jumpy.Width = 2;
+                jumpy.Height = 2;
+                jumpy.Visibility = Visibility.Hidden;
+
+            }
+
+            jumping += 0.3;
+            jumpy.Margin = new Thickness(jumpy.Margin.Left - 0.5, jumpy.Margin.Top+0.3, 0, 0);
+            jumpy.Width += 1;
+            jumpy.Height += 1;
+
+
+
+
             //testi.Margin = new Thickness(testi.Margin.Left, testi.Margin.Top+1, 0, 0);
             mapBlocks.RemoveAt(8);
             if (CollisionTest(testi)) { }
@@ -94,7 +138,7 @@ namespace Something
             {
                 
                 rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left+3, rctPlayer.Margin.Top, 0, 0);
-                if (CollisionTest(rctPlayer)) { Console.WriteLine(IsTest); rctSkew.AngleX += 0.15; rctSkew2.AngleX += 0.15; } // shadow skew movement test
+                if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50,true); }
                 else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left - 3, rctPlayer.Margin.Top, 0, 0);}
                 
             }
@@ -102,8 +146,8 @@ namespace Something
             {
                 
                 rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left-3, rctPlayer.Margin.Top, 0, 0);
-                if (CollisionTest(rctPlayer)) { Console.WriteLine(IsTest  ); rctSkew.AngleX -= 0.15; rctSkew2.AngleX -= 0.15; }// shadow skew movement test
-                else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left +3, rctPlayer.Margin.Top, 0, 0);  }
+                if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50, false); }
+                else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left + 3, rctPlayer.Margin.Top, 0, 0); }
 
 
             }
@@ -123,20 +167,18 @@ namespace Something
             
             if (Keyboard.IsKeyDown(Key.Space))
             {
-                rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top-3, 0, 0);
+                rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top-8, 0, 0);
                 if (CollisionTest(rctPlayer)) { }
-                else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top + 3, 0, 0); }
+                else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top + 8, 0, 0); }
 
             }
             if (Keyboard.IsKeyUp(Key.Space))
             {
+                //
                 rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top + 3, 0, 0);
                 if (CollisionTest(rctPlayer)) {  }
                 else { rctPlayer.Margin = new Thickness(rctPlayer.Margin.Left, rctPlayer.Margin.Top -3, 0, 0); }
             }
-
-
-
         }
 
         private bool CollisionTest(Shape player)
@@ -151,6 +193,37 @@ namespace Something
             }
             return dum;
         }
+
+
+       private void LightTransform(List<SkewTransform> angle, int maxAngle, int minAngle, bool side)
+        {
+            foreach (var item in angle)
+            {
+                if(item.AngleX < maxAngle && item.AngleX > minAngle)
+                {
+                    if (side)
+                    { 
+                        item.AngleX += 0.15;
+                    }
+                    else if (side == false)
+                    {
+                        item.AngleX -= 0.15;
+                    }
+                }
+            }
+        }
+
+
+        private void DrawJump()
+        {
+            jumpy.Height = 2;
+            jumpy.Width = 5;
+            jumpy.Margin = new Thickness(rctPlayer.Margin.Left+15 , rctPlayer.Margin.Top + rctPlayer.Height - 10, 0, 0) ;
+            
+            
+
+        }
+
 
         private bool CollisionDetect(Shape playerBox, Shape objB)
         {
@@ -193,14 +266,56 @@ namespace Something
 
         }
 
+
+
         // rotates the canvas 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+
+
             if(e.Key == Key.Q)
             {
                 RotateTest += 45;
                 cnvRotate.Angle = RotateTest;
             }
+            if(e.Key == Key.Space)
+            {
+                
+                jumpy.Visibility = Visibility.Visible;
+                DrawJump();
+            }
+
+            if(e.Key == Key.Escape)
+            {
+                
+                if (IsPaused == false)
+                {
+                    musicPlayer.Pause();
+                    pauseMusic.Play();
+                    PauseScreen.Visibility = Visibility.Visible;
+                    IsPaused = true;
+                    timer.Stop();
+                }
+                else
+                {
+                    IsPaused = false;
+                }
+
+            }
+        }
+        
+
+        private void Quit_Game(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        private void Continue(object sender, RoutedEventArgs e)
+        {
+            PauseScreen.Visibility = Visibility.Hidden;
+            pauseMusic.Stop();
+            musicPlayer.Play();
+            IsPaused = false;
+            timer.Start();
         }
     }
 }

@@ -5,25 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Something"
         mc:Ignorable="d"
+        WindowStyle="None"
+        WindowState="Maximized"
         KeyDown="Window_KeyDown"
-        Title="MainWindow"  Width="640" Height="400">
-    <Canvas x:Name="cnvBase"  Opacity="1" Background="White" RenderTransformOrigin="0.5,0.5">
+        Icon="favicon.ico"
+        ResizeMode="CanMinimize"
+        
+        Title="Block"  Width="640" Height="400">
+    <Canvas x:Name="cnvBase" Width="640" Height="400"   Opacity="1" Background="White" RenderTransformOrigin="0.5,0.5">
+
         <Canvas.RenderTransform>
             <RotateTransform x:Name="cnvRotate"/>
         </Canvas.RenderTransform>
-        <Rectangle x:Name="rctBottom" Margin="0,336,0,0" Height="32" Width="640" Fill="Black"/>
+        <MediaElement x:Name="musicPlayer" Volume="0.2" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\space.flac" LoadedBehavior="Manual" />
+        <MediaElement x:Name="pauseMusic" Source="F:\KOULU\PELIN OSAT\Navigation_Button_19.wav" Volume="0.1" LoadedBehavior="Manual" />
+        <Rectangle x:Name="rctBottom" Margin="0,368,0,0" Height="1132" Width="640" Fill="Black"/>
         <Rectangle x:Name="rctBottomStop" Margin="444,304,0,0"  Height="32" Width="128" Fill="Black"/>
         <Rectangle x:Name="rctMid" Margin="250,200,0,0" Height="32" Width="128" Fill="Black"/>
-        <Rectangle x:Name="rctRight" Margin="560,200,0,0" Height="32" Width="70" Fill="Black"/>
-
-        <Rectangle x:Name="rctPlayer" Fill="Black"  Margin="292,304,0,0" Width="32" Height="32" >
-        </Rectangle>
+        <Rectangle x:Name="rctRight" Margin="560,200,0,0" Height="32" Width="80" Fill="Black"/>
+        <Rectangle x:Name="rctPlayer"  Margin="292,304,0,0" Width="32" Height="32" Fill="Black"/>
         <Rectangle x:Name="rctMid_Copy" Margin="0,200,0,0"  Height="32" Width="128" Fill="Black"/>
         <Rectangle x:Name="Light" Margin="0,0,0,0" Height="200" Width="128" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="1,1">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform x:Name="rctSkew2" AngleX="0"/>
+                    <SkewTransform x:Name="rctSkew2" AngleX="25"/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
@@ -33,18 +39,82 @@
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
-                    <SkewTransform x:Name="rctSkew" AngleX="0"/>
+                    <SkewTransform x:Name="rctSkew" AngleY="0.310" AngleX="0"/>
                     <RotateTransform/>
                     <TranslateTransform/>
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle x:Name="LeftWall" Margin="-50,0,0,0" Height="380" Width="50" Fill="Black"/>
-        <Rectangle x:Name="RightWall" Margin="630,0,0,0" Height="380" Width="50" Fill="Black"/>
-        <Rectangle x:Name="Ceiling" Height="32" Width="640" Fill="Black"/>
+        <Rectangle x:Name="LeftWall" Margin="-1600,-1500,0,0" Height="3000" Width="1600" Fill="Black"/>
+        <Rectangle x:Name="RightWall" Margin="640,-1500,0,0" Height="3000" Width="1600" Fill="Black"/>
+        <Rectangle x:Name="Ceiling" Height="1500" Width="658" Margin="-16,-1500,0,0" Fill="Black"/>
         <Rectangle x:Name="testi"  Height="32" Width="32" Fill="#FFA21E1E" Margin="32,168,0,0"/>
 
 
-        <Label x:Name="TimeTest" Margin="35,35,0,0" Width="128" Height="50" />
+        <Label x:Name="TimeTest" Width="55" Height="25" Canvas.Left="560" TextBlock.TextAlignment="Center" Canvas.Top="-30" Panel.ZIndex="5" Foreground="#FFF1F1F1" />
+        <Rectangle x:Name="LightRight" Height="200" Width="120" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="560,0,0,0">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform x:Name="rctSkew1"  AngleX="-25"/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle x:Name="jumpy"  Height="12" Width="34" Margin="291,325,0,0" Panel.ZIndex="-2">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#006A6666" Offset="1"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Canvas x:Name="PauseScreen" Panel.ZIndex="35" Height="400"   Width="640" Background="#BF515151" Visibility="Hidden">
+            <StackPanel Margin="50,50,0,0" Width="240" Height="300">
+                <Button Width="auto" Click="Continue" Content="CONTINUE" FontFamily="Segoe ui" FontWeight="Bold"  FontSize="32" BorderThickness="0"  Height="55" Margin="0,50,0,0" Panel.ZIndex="40">
+
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#00000000" Offset="0.985"/>
+                            <GradientStop Color="Black" Offset="0.935"/>
+                            <GradientStop Color="#FF807C7C" Offset="0.616"/>
+                            <GradientStop Color="#FF383636" Offset="0.918"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+
+                </Button>
+                <Button Width="auto" Click="Continue" Content="OPTIONS"  FontFamily="Segoe ui" FontWeight="Bold"  FontSize="32" Height="55" Margin="0,25,0,0" BorderThickness="0"    Panel.ZIndex="40">
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#00000000" Offset="0.985"/>
+                            <GradientStop Color="Black" Offset="0.935"/>
+                            <GradientStop Color="#FF807C7C" Offset="0.616"/>
+                            <GradientStop Color="#FF383636" Offset="0.918"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button Width="auto" Content="QUIT"  FontFamily="Segoe ui" FontWeight="Bold"  FontSize="32" Click="Quit_Game" Margin="0,25,0,0" BorderThickness="0"   Height="55"  >
+                    <Button.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#00000000" Offset="0.985"/>
+                            <GradientStop Color="Black" Offset="0.935"/>
+                            <GradientStop Color="#FF807C7C" Offset="0.616"/>
+                            <GradientStop Color="#FF383636" Offset="0.918"/>
+                        </RadialGradientBrush>
+                    </Button.Background>
+                </Button>
+            </StackPanel>
+            <StackPanel Margin="320,50,0,0" Width="300" Height="300">
+                <StackPanel.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="Black" Offset="0"/>
+                        <GradientStop Offset="1"/>
+                    </RadialGradientBrush>
+                </StackPanel.Background>
+            </StackPanel>
+        </Canvas>
+        <TextBlock x:Name="Level" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 1 - Introduction" Canvas.Left="32" Canvas.Top="-73"/>
+
     </Canvas>
 </Window>
