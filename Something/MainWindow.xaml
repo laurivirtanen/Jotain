@@ -8,7 +8,6 @@
         WindowStyle="None"
         WindowState="Maximized"
         KeyDown="Window_KeyDown"
-        Icon="favicon.ico"
         ResizeMode="CanMinimize"
         
         Title="Block"  Width="640" Height="400">
@@ -62,11 +61,11 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle x:Name="jumpy"  Height="12" Width="34" Margin="291,325,0,0" Panel.ZIndex="-2">
+        <Rectangle x:Name="jumpy"   Height="12" Width="34" Margin="291,325,0,0" Panel.ZIndex="-2">
             <Rectangle.Fill>
                 <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="0"/>
-                    <GradientStop Color="#006A6666" Offset="1"/>
+                    <GradientStop Color="Black"  Offset="0"/>
+                    <GradientStop x:Name="jumpColor" Color="#006A6666" Offset="1"/>
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -115,6 +114,7 @@
             </StackPanel>
         </Canvas>
         <TextBlock x:Name="Level" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 1 - Introduction" Canvas.Left="32" Canvas.Top="-73"/>
-
+        <Rectangle Width="30" Height="3" Margin="590,195,0,0" Fill="Red"/>
+        <Rectangle Width="3" Height="30" Margin="635,160,0,0" Fill="Red"/>
     </Canvas>
 </Window>

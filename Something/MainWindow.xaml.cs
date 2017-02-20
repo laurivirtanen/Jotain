@@ -126,8 +126,6 @@ namespace Something
             jumpy.Height += 1;
 
 
-
-
             //testi.Margin = new Thickness(testi.Margin.Left, testi.Margin.Top+1, 0, 0);
             mapBlocks.RemoveAt(8);
             if (CollisionTest(testi)) { }
