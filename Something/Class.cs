@@ -6,39 +6,164 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Microsoft.Win32;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Shapes;
 
 namespace Something
 {
-    class Player
+    class Player : INotifyPropertyChanged
     {
-        public double positionX = 0;
-        public double positionY = 0;
-        public double height;
-        public double width;
-
-        public double MovePlayer(double x, double y)
+        public double moving = 5;
+        public double gravity = 5;
+        public int jumpCounter = 0;
+        double jump;
+        public bool IsGrounded;
+        public double Height { get; set; }
+        public double Width { get; set; }
+        private Thickness placement;
+        public Thickness Placement
         {
-            return x;
-        }
-
-    }
-
-    public class MediaPlayer
-    {
-        private MediaPlayer mediaPlayer = new MediaPlayer();
-        
-
-        private void OpenAudioFile()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "MP3 files(*.mp3) | *.mp3 | All files(*.*) | *.* ";
-            if(openFileDialog.ShowDialog() == true)
+            get
             {
-                mediaPlayer.OpenAudioFile();
-                
+                return placement;
+            }
+            set
+            {
+                placement = value;
+                RaisePropertyChanged();
             }
         }
-        
 
+        public Player(Thickness plc, double hgt, double wdt)
+        {
+            Placement = plc;
+            Height = hgt;
+            Width = wdt;
+        }
+
+
+
+        public void MovePlayer(int side)
+        {
+            switch (side)
+            {
+                case 0: // right
+                    Placement = new Thickness(Placement.Left + moving, Placement.Top, 0, 0);
+                    break;
+                case 1: //left
+                    Placement = new Thickness(Placement.Left - moving, Placement.Top, 0, 0);
+                    break;
+                case 2: // gravity
+                    Placement = new Thickness(Placement.Left, Placement.Top + gravity, 0, 0);
+                    IsGrounded = false;
+                    break;
+                case 3: // gravity collision
+                    Placement = new Thickness(Placement.Left, Placement.Top - gravity, 0, 0);
+                    IsGrounded = true;
+                    break;
+                default:
+                    Placement = new Thickness(Placement.Left, Placement.Top, 0, 0);
+                    break;
+            }
+
+        }
+
+
+        public bool Jumping(int side)
+        {
+            if ((jumpCounter == 0 && IsGrounded == true) || jumpCounter != 0)
+            {
+                jump = gravity * 2.2 - (jumpCounter / 5);
+
+                if (jumpCounter < 50)
+                {
+                    jumpCounter++;
+                    switch (side)
+                    {
+                        case 0:
+                            Placement = new Thickness(Placement.Left, Placement.Top - jump, 0, 0);
+                            return true;
+                        case 1:
+                            Placement = new Thickness(Placement.Left, Placement.Top + jump, 0, 0);
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+           
+            else { jumpCounter = 0; return false; }
+            }
+            else { return false; }
+        }
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
+
+
+    // all Things Blocky baseclass to be implemented
+    class Block : Shape
+    {
+        private double width;
+        public double Width
+        {
+            get { return width; }
+            set { width = value; }
+        }
+
+        private double height;
+        public double Height
+        {
+            get { return height; }
+            set { height = value; }
+        }
+
+        private Thickness placement;
+
+        public Thickness Placement
+        {
+            get { return placement; }
+            set { placement = value; }
+        }
+
+
+        public Block(Thickness plc, double hgt, double wdt)
+        {
+            Placement = plc;
+            Height = hgt;
+            Width = wdt;
+        }
+
+        protected override Geometry DefiningGeometry
+        {
+            get
+            {
+
+                throw new NotImplementedException();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+
+
 }
