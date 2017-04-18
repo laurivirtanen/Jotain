@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using Microsoft.Win32;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Shapes;
@@ -114,14 +109,14 @@ namespace Something
     class Block : Shape
     {
         private double width;
-        public double Width
+        public new double Width
         {
             get { return width; }
             set { width = value; }
         }
 
         private double height;
-        public double Height
+        public new double Height
         {
             get { return height; }
             set { height = value; }

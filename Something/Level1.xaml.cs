@@ -2,39 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Threading;
+using Something;
+
+/// <summary>
+/// Song from (https://soundcloud.com/laserost)  (http://www.youtube.com/user/Manofunctional).
+/// </summary>
+
 
 namespace Something
 {
     /// <summary>
-    /// Interaction logic for Level1.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class Level1 : Window
     {
+
+        int retry = 0;
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
         List<SkewTransform> Lights = new List<SkewTransform>();
-        Random rand = new Random();
-        
+        EndOfLevel gameWindow = new EndOfLevel();
+
         Player player = new Player(new Thickness(32, 300, 0, 0), 32, 32);
 
-        int aliveLight = 0;
+
+        private bool trgMove = false;
+        private int TargetMove = 0;
         private bool IsGrounded = false;
         private bool IsPulsing;
-        private bool IsRedClicked = false;
-        private bool HasCollided = false;
-
-        private bool IsPaused = false;
-
+        private bool IsMoving;
+        private bool IsPaused = true;
         private bool RedWin = false;
         private bool BlueWin = false;
 
@@ -43,19 +52,27 @@ namespace Something
 
         public Level1()
         {
-            InitializeComponent();
-            RotateTest = 0;
-            timer.Tick += new EventHandler(GameLoop);
-            InitStuff();
-            timer.Interval = TimeSpan.FromMilliseconds(1);
-            timer.Start();
+            try
+            {
+                InitializeComponent();
+                RotateTest = 0;
+                timer.Tick += new EventHandler(GameLoop);
+                timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+                InitStuff();
+                timer.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
-
+      
         public void InitStuff()
         {
-
             rctPlayer.DataContext = player;
 
+            RedWin = false;
+            BlueWin = false;
             //collision list
             mapBlocks.Add(rctBottom);
             mapBlocks.Add(rctBottomStop);
@@ -65,17 +82,14 @@ namespace Something
             mapBlocks.Add(RightWall);
             mapBlocks.Add(Ceiling);
             mapBlocks.Add(rctRight);
-            mapBlocks.Add(testi);
-
+            mapBlocks.Add(rctTarget);
             //"lights"
             Lights.Add(rctSkew);
             Lights.Add(rctSkew1);
             Lights.Add(rctSkew2);
 
-
             jump.Stop();
             musicPlayer.Play();
-
 
         }
         /*
@@ -107,33 +121,17 @@ namespace Something
             {
                 player.MovePlayer(0);
                 if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50, true); }
-                else { player.MovePlayer(1); }
+                else { player.MovePlayer(1); player.IsGrounded = true; }
 
             }
             if (Keyboard.IsKeyDown(Key.A))
             {
                 player.MovePlayer(1);
                 if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50, false); }
-                else { player.MovePlayer(0); }
+                else { player.MovePlayer(0); player.IsGrounded = true; }
             }
 
             // moves the red block
-            if (Keyboard.IsKeyDown(Key.E))
-            {
-                if (HasCollided == true)
-                {
-                    player.MovePlayer(0);
-                    IsRedClicked = true;
-                    RedMove.Play();
-                    if (CollisionTest(rctPlayer)) { IsRedClicked = true; }
-                    else
-                    {
-
-                        player.MovePlayer(1);
-                    }
-                }
-            }
-
             player.MovePlayer(2);
             if (CollisionTest(rctPlayer)) { }
             else { player.MovePlayer(3); }
@@ -142,16 +140,53 @@ namespace Something
 
         private void RedBlock()
         {
-            if (IsRedClicked == true)
-            {
-                mapBlocks.RemoveAt(8);
-                if (CollisionTest(testi)) { testi.Margin = new Thickness(testi.Margin.Left + 2, testi.Margin.Top, 0, 0); }
-                else
+            if (IsMoving == false && TargetMove != 0)
+                switch (TargetMove)
                 {
-                    IsRedClicked = false;
+                    case 1:
+                        mapBlocks.RemoveAt(8);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left + player.moving, rctTarget.Margin.Top, 0, 0); }
+                        else
+                        {
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left - player.moving, rctTarget.Margin.Top, 0, 0);
+                            TargetMove = 0;
+                        }
+                        mapBlocks.Add(rctTarget);
+                        break;
+                    case 2:
+                        mapBlocks.RemoveAt(8);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left - player.moving, rctTarget.Margin.Top, 0, 0); }
+                        else
+                        {
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left + player.moving, rctTarget.Margin.Top, 0, 0);
+                            TargetMove = 0;
+                        }
+                        mapBlocks.Add(rctTarget);
+                        break;
+                    case 3:
+                        mapBlocks.RemoveAt(8);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top + player.moving, 0, 0); }
+                        else
+                        {
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top - player.moving, 0, 0);
+                            TargetMove = 0;
+                        }
+                        mapBlocks.Add(rctTarget);
+                        break;
+                    case 4:
+                        mapBlocks.RemoveAt(8);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top - player.moving, 0, 0); }
+                        else
+                        {
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top + player.moving, 0, 0);
+                            TargetMove = 0;
+                        }
+                        mapBlocks.Add(rctTarget);
+                        break;
+                    default:
+
+                        break;
                 }
-                mapBlocks.Add(testi);
-            }
         }
 
 
@@ -159,7 +194,7 @@ namespace Something
         private void GoalPulse()
         {
             CollisionDetect(rctPlayer, BlueGoal);
-            CollisionDetect(testi, rctGoal);
+            CollisionDetect(rctTarget, rctGoal);
             double pulse1 = 0.02;
             double pulse2 = 0.005;
             Random rand = new Random();
@@ -170,7 +205,6 @@ namespace Something
                 colorTest1.Offset += pulse1;
                 plrColor.Offset += pulse1;
                 enmColor.Offset += pulse1;
-
                 d.Offset += pulse1;
             }
             else
@@ -179,7 +213,6 @@ namespace Something
                 colorTest1.Offset -= pulse2;
                 plrColor.Offset -= pulse2;
                 enmColor.Offset -= pulse2;
-
                 d.Offset -= pulse2;
 
 
@@ -220,31 +253,25 @@ namespace Something
 
         private void GameLoop(object sender, EventArgs e)
         {
+            try {
+                if (IsGrounded == true) { Jumping(); }
+                RedBlock();
+                GoalPulse();
 
-            if (IsGrounded == true) { Jumping(); }
+                //TimeTest.Content = DateTime.Now.ToLongTimeString();
+                TimeTest.Content = "player x" + rctPlayer.Margin.Left + " " + rctTarget.Margin.Left + "\n" + "player y" + rctPlayer.Margin.Top;
+                Player();
 
-            
-
-            if (aliveLight < 10)
-            {
-                clrLive.Offset += 0.0025;
-                aliveLight++;
-            } else if (aliveLight < 20)
-            {
-                clrLive.Offset -= 0.0025;
-                aliveLight++;
-            } else { aliveLight = 0; }
-
-            RedBlock();
-            GoalPulse();
-
-
-            TimeTest.Content = DateTime.Now.ToLongTimeString();
-            Player();
-
+                if(RedWin == true && BlueWin == true)
+                {
+                    gameWindow.Show();
+                    this.Close();
+                }
+                RedBlock();
+                }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
 
         }
-
 
         private bool CollisionTest(Shape player)
         {
@@ -268,11 +295,11 @@ namespace Something
                 {
                     if (side)
                     {
-                        item.AngleX += 0.15;
+                        item.AngleX += 0.015;
                     }
                     else if (side == false)
                     {
-                        item.AngleX -= 0.15;
+                        item.AngleX -= 0.015;
                     }
                 }
             }
@@ -295,7 +322,6 @@ namespace Something
 
             objB_rect.X = objB.Margin.Left;
             objB_rect.Y = objB.Margin.Top;
-
             objB_rect.Width = objB.ActualWidth;
             objB_rect.Height = objB.ActualHeight;
 
@@ -303,20 +329,41 @@ namespace Something
                (objB_rect.X + objB_rect.Width) > playerBox_rect.X))
                 if (
                  (objB_rect.Y < (playerBox_rect.Y + playerBox_rect.Height)) &&
-                (objB_rect.Y + objB_rect.Height) > playerBox_rect.Y)
+                 (objB_rect.Y + objB_rect.Height) > playerBox_rect.Y)
                 {
-                    if (objB.Name == "testi")
+                    if (objB.Name == "rctTarget")
                     {
-                        HasCollided = true;
+                        // punasen palikan liikuttelu 
+                        if (trgMove == false) {
+                            trgMove = true;
+                            //vasemmalle
+                            if ((playerBox_rect.X+playerBox_rect.Width-4) <= objB_rect.X)
+                            {
+                                TargetMove = 2;
+                            }
+                            //ylös
+                            else if (playerBox_rect.Y+playerBox_rect.Height-4 <= objB_rect.Y)
+                            {
+                                TargetMove = 4;
+                            }
+                            //alas
+                            else if (playerBox_rect.Y  >= objB_rect.Y+objB_rect.Height-4)
+                            {
+                                TargetMove = 3;
+                            }
+                            else //oikealle TODO paremmi9n
+                            { TargetMove = 1; }
+                        }
+                        
 
                     }
 
-                    else if (playerBox.Name == "testi")
+                    else if (playerBox.Name == "rctTarget")
                     {
 
                         if (objB.Name == "rctGoal")
-
                             RedWin = true;
+                        else if (objB.Name != "rctPlayer") { trgMove = false; }
                     }
                     else if (playerBox.Name == "rctPlayer")
                     {
@@ -333,10 +380,8 @@ namespace Something
 
                 else
                 {
-                    HasCollided = false;
                     return true;
                 }
-            HasCollided = false;
             return true;
 
         }
@@ -346,36 +391,50 @@ namespace Something
         // rotates the canvas 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-
-
-            if (e.Key == Key.Q)
+            switch (e.Key)
             {
-                RotateTest += 45;
-                cnvRotate.Angle = RotateTest;
-            }
-            if (e.Key == Key.Space)
-            {
-                IsGrounded = true;
-            }
+                case Key.Q:
+                    RotateTest += 45;
+                    cnvRotate.Angle = RotateTest;
+                    break;
+                case Key.Space:
+                    IsGrounded = true;
+                    if (IsPaused == true)
+                    {
+                        IsPaused = false;
+                        PauseScreen.Visibility = Visibility.Hidden;
+                        timer.Start();
+                    }
+                    break;
+                case Key.Escape:
+                    if (IsPaused == false)
+                    {
+                        musicPlayer.Pause();
 
+                        pauseMusic.Play();
+                        PauseScreen.Visibility = Visibility.Visible;
+                        IsPaused = true;
+                        timer.Stop();
+                    }
+                    else
+                    {
+                        IsPaused = false;
+                    }
+                    break;
+                case Key.R:
 
-            if (e.Key == Key.Escape)
-            {
-
-                if (IsPaused == false)
-                {
-                    musicPlayer.Pause();
-
-                    pauseMusic.Play();
-                    PauseScreen.Visibility = Visibility.Visible;
-                    IsPaused = true;
-                    timer.Stop();
-                }
-                else
-                {
-                    IsPaused = false;
-                }
-
+                    if (IsPaused == true)
+                    {
+                        Level1 retry = new Level1();
+                        retry.Show();
+                        this.Close();
+                        PauseScreen.Visibility = Visibility.Hidden;
+                        pauseMusic.Stop();
+                        musicPlayer.Play();
+                        IsPaused = false;
+                        timer.Start();
+                    }
+                    break;
             }
         }
 
@@ -414,17 +473,17 @@ namespace Something
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // restart testing
-
-            MainWindow mw = new MainWindow();
-            mw.Show();
-            this.Close();
-
+            // restart rctTargetng
+            Level1 retry = new Level1();
+            retry.Show();
+            Close();
             PauseScreen.Visibility = Visibility.Hidden;
             pauseMusic.Stop();
             musicPlayer.Play();
             IsPaused = false;
             timer.Start();
         }
+
+
     }
 }

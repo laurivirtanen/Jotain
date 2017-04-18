@@ -5,176 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Something"
         mc:Ignorable="d"
-        WindowStyle="None"
-        WindowState="Maximized"
-        KeyDown="Window_KeyDown"
-        ResizeMode="CanMinimize"
-        Title="Block"  Width="640" Height="400">
-    <Canvas x:Name="cnvBase" Width="640" Height="400"   Opacity="1" RenderTransformOrigin="0.5,0.5">
-        <Canvas.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FF5B5B5B" Offset="0"/>
-                <GradientStop Color="#FF3E3E3E" Offset="1"/>
-            </LinearGradientBrush>
-        </Canvas.Background>
-
-        <Canvas.RenderTransform>
-            <RotateTransform x:Name="cnvRotate"/>
-        </Canvas.RenderTransform>
-        <MediaElement x:Name="musicPlayer" Volume="0.1" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\space.flac" LoadedBehavior="Manual" />
-        <MediaElement x:Name="pauseMusic" Source="F:\KOULU\PELIN OSAT\Navigation_Button_19.wav" Volume="0.1" LoadedBehavior="Manual" />
-        <MediaElement x:Name="jump" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\BB_DRL__086.wav" Volume="0.005" LoadedBehavior="Manual"/>
-        <MediaElement x:Name="Collision" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\FS Concrete Soldier Crouch N02.wav" Volume="0.005" LoadedBehavior="Manual"/>
-        <MediaElement x:Name="RedMove" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\CK_Force_Field_Loop-32.wav" Volume="0.005" LoadedBehavior="Manual"/>
-        <Rectangle x:Name="rctBottom" Margin="0,368,0,0" Height="1132" Width="640" Fill="Black"/>
-        <Rectangle x:Name="rctBottomStop" Margin="420,290,0,0"  Height="32" Width="128" Fill="Black"/>
-        <Rectangle x:Name="rctMid" Margin="250,200,0,0" Height="32" Width="128" Fill="Black"/>
-        <Rectangle x:Name="rctRight" Margin="560,200,0,0" Height="32" Width="80" Fill="Black"/>
-
-        <Rectangle x:Name="rctGoal" Margin="560,120,0,0" Height="80" Width="80">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop  Color="#54EC1010"/>
-                    <GradientStop x:Name="d" Color="#E7200202" Offset="0.076"/>
-
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle x:Name="rctRight2" Margin="564,124,0,0" Height="8" Width="8" Fill="White"/>
-        <Rectangle x:Name="rctPlayer" Margin="{Binding Placement, Mode=TwoWay}"  Width="{Binding Path=Width}" Height="{Binding Path=Height}" Stroke="#FF08092E">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="0.815"/>
-                    <GradientStop x:Name="plrColor" Color="Black" Offset="0.074"/>
-                    <GradientStop  Color="#FF002CFF" Offset="0.013"/>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle x:Name="rctMid_Copy" Margin="0,200,0,0"  Height="32" Width="128" Fill="Black"/>
-        <Rectangle x:Name="Light" Margin="0,0,0,0" Height="200" Width="128" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="1,1">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform x:Name="rctSkew2" AngleX="25"/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        <Rectangle x:Name="LightMid" Height="232" Width="128" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="250,0,0,0">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform x:Name="rctSkew" AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        <Rectangle x:Name="LeftWall" Margin="-1600,-1500,0,0" Height="3000" Width="1600" Fill="Black"/>
-        <Rectangle x:Name="RightWall" Panel.ZIndex="3" Margin="640,-1500,0,0" Height="3000" Width="1600" Fill="Black"/>
-        <Rectangle x:Name="Ceiling" Height="1500" Width="658" Margin="-16,-1500,0,0" Fill="Black"/>
-        <Rectangle x:Name="rctTarget"  Height="32" Width="32" Margin="80,105,0,0" Stroke="#FF490404">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="0.887"/>
-                    <GradientStop x:Name="enmColor" Color="Black" Offset="0.068"/>
-                    <GradientStop  Color="#FF890A0A" Offset="0.013"/>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-
-
-        <Label x:Name="TimeTest" Width="55" Height="25" Canvas.Left="585" TextBlock.TextAlignment="Center" Canvas.Top="-45" Panel.ZIndex="5" Foreground="#FFF1F1F1" />
-        <Rectangle x:Name="redLight" Width="64" Height="64" Margin="450,-70,0,0">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFEA0202"/>
-                    <GradientStop x:Name="rdL" Color="Black" Offset="0.0"/>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle x:Name="blueLight" Width="64" Height="64" Margin="524,-70,0,0">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FF002EFF"/>
-                    <GradientStop x:Name="blL" Color="Black" Offset="0.0"/>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle x:Name="LightRight" Height="200" Width="120" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="560,0,0,0">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform x:Name="rctSkew1"  AngleX="-20"/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-
-        <Canvas x:Name="PauseScreen" Panel.ZIndex="35" Height="400"   Width="640" Background="#BF515151" Visibility="Hidden">
-            <StackPanel Margin="50,50,0,0" Width="240" Height="300">
-                <Button Width="auto" Click="Continue" Content="CONTINUE" FontFamily="Segoe ui" FontWeight="Bold"  FontSize="32" BorderThickness="0"  Height="55" Margin="0,50,0,0" Panel.ZIndex="40">
-
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#00000000" Offset="0.985"/>
-                            <GradientStop Color="Black" Offset="0.935"/>
-                            <GradientStop Color="#FF807C7C" Offset="0.616"/>
-                            <GradientStop Color="#FF383636" Offset="0.918"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-
-                </Button>
-                <Button Width="auto" Click="Button_Click" Content="RETRY"  FontFamily="Segoe ui" FontWeight="Bold"  FontSize="32" Height="55" Margin="0,25,0,0" BorderThickness="0"    Panel.ZIndex="40">
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#00000000" Offset="0.985"/>
-                            <GradientStop Color="Black" Offset="0.935"/>
-                            <GradientStop Color="#FF807C7C" Offset="0.616"/>
-                            <GradientStop Color="#FF383636" Offset="0.918"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-                </Button>
-                <Button Width="auto" Content="QUIT"  FontFamily="Segoe ui" FontWeight="Bold"  FontSize="32" Click="Quit_Game" Margin="0,25,0,0" BorderThickness="0"   Height="55"  >
-                    <Button.Background>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#00000000" Offset="0.985"/>
-                            <GradientStop Color="Black" Offset="0.935"/>
-                            <GradientStop Color="#FF807C7C" Offset="0.616"/>
-                            <GradientStop Color="#FF383636" Offset="0.918"/>
-                        </RadialGradientBrush>
-                    </Button.Background>
-                </Button>
-            </StackPanel>
-            <StackPanel Margin="320,50,0,0" Width="300" Height="300">
-                <StackPanel.Background>
+        Title="MainWindow" Height="640" Width="400">
+    <Grid Background="Black">
+        <StackPanel>
+            <!--<Image Source=""/> -->
+            <Button x:Name="btnPlay" FontSize="75"  FontFamily="algerian" Content="PLAY" Margin="75" Click="btnPlay_Click" Width="250" Height="250" BorderBrush="{x:Null}" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform x:Name="playRotate" Angle="-35"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+                <Button.Background>
                     <RadialGradientBrush>
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Offset="1"/>
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#FFF1F1F1" Offset="0.108"/>
+                        <GradientStop Color="#FF0E0E0E" Offset="0.848"/>
+                        <GradientStop x:Name="btnPlaycolor" Color="#FFA8A8A8" Offset="0.812"/>
+                        <GradientStop Color="#FFB1B1B1" Offset="0.318"/>
                     </RadialGradientBrush>
-                </StackPanel.Background>
-            </StackPanel>
-        </Canvas>
-        <TextBlock x:Name="Level" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 1 - Introduction" Canvas.Left="32" Canvas.Top="-73"/>
-
-        <Rectangle x:Name="rctLeftBlo" Margin="64,124,0,0" Height="8" Width="8" Panel.ZIndex="3" Fill="#FF0051FF"/>
-        <Rectangle x:Name="BlueGoal" Panel.ZIndex="-1" Margin="0,120,0,0" Height="80" Width="80">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop  Color="#E7092CD3"/>
-                    <GradientStop x:Name="colorTest1" Color="#E7061457" Offset="0.076"/>
-
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-
-
-
-    </Canvas>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btnExit"  FontSize="85" Content="EXIT" Click="btnExit_Click" Width="250" Height="250" BorderBrush="{x:Null}">
+                <Button.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="Black" Offset="0.935"/>
+                        <GradientStop Color="White" Offset="0.105"/>
+                        <GradientStop Color="#FF707070" Offset="0.697"/>
+                        <GradientStop Color="#FFA8A8A8" Offset="0.48"/>
+                        <GradientStop Color="#FFB1B1B1" Offset="0.318"/>
+                    </RadialGradientBrush>
+                </Button.Background>
+            </Button>
+        </StackPanel>
+    </Grid>
 </Window>
