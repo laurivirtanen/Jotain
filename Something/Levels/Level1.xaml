@@ -52,7 +52,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle x:Name="rctMid_Copy" Margin="0,200,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="Light" Margin="0,0,0,0" Height="200" Width="128" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="1,1" Cursor="Arrow" IsHitTestVisible="True">
+        <Rectangle x:Name="Light" Margin="0,0,0,0" Height="200" Width="128" Fill="white" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="1,1" Cursor="Arrow" IsHitTestVisible="True">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -62,7 +62,7 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle x:Name="LightMid" Height="232" Width="128" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="250,0,0,0" Cursor="Arrow" IsHitTestVisible="True">
+        <Rectangle x:Name="LightMid" Height="232" Width="128" Fill="white" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="250,0,0,0" Cursor="Arrow" IsHitTestVisible="True">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -105,7 +105,7 @@
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="LightRight" Height="200" Width="120" Fill="Gray" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="560,0,0,0" Cursor="Arrow" IsHitTestVisible="True">
+        <Rectangle x:Name="LightRight" Height="200" Width="120" Fill="White" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="560,0,0,0" Cursor="Arrow" IsHitTestVisible="True">
             <Rectangle.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

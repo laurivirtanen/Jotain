@@ -1,21 +1,11 @@
-﻿using System;
+﻿using Something.Classes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Drawing;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Something;
-
+using System.Windows.Threading;
 /// <summary>
 /// Song from (https://soundcloud.com/laserost)  (http://www.youtube.com/user/Manofunctional).
 /// </summary>
@@ -29,11 +19,19 @@ namespace Something
     public partial class Level1 : Window
     {
 
-        int retry = 0;
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
         List<SkewTransform> Lights = new List<SkewTransform>();
         EndOfLevel gameWindow = new EndOfLevel();
+
+        PulsingLight Pulser = new PulsingLight();
+
+        //Pulsebool and pulsers are used for pulsing or changing lights
+        bool[] PulseBool = new bool[4];
+        double[] Pulsers = new double[4];
+        // win and winBool are used to check if win conditions match
+        double[] win = new double[2];
+        bool[] winBool = new bool[2];
 
         Player player = new Player(new Thickness(32, 300, 0, 0), 32, 32);
 
@@ -41,11 +39,7 @@ namespace Something
         private bool trgMove = false;
         private int TargetMove = 0;
         private bool IsGrounded = false;
-        private bool IsPulsing;
-        private bool IsMoving;
         private bool IsPaused = true;
-        private bool RedWin = false;
-        private bool BlueWin = false;
 
         public double RotateTest { get; set; }
 
@@ -69,10 +63,19 @@ namespace Something
       
         public void InitStuff()
         {
+            Pulsers[0] = colorTest1.Offset;
+            Pulsers[1] = colorTest1.Offset;
+            Pulsers[2] = enmColor.Offset;
+            Pulsers[3] = d.Offset;
+            for (int i = 0; i < PulseBool.Length; i++)
+            {
+                PulseBool[i] = true;
+            }
+
             rctPlayer.DataContext = player;
 
-            RedWin = false;
-            BlueWin = false;
+            winBool[0] = false;
+            winBool[1] = false;
             //collision list
             mapBlocks.Add(rctBottom);
             mapBlocks.Add(rctBottomStop);
@@ -92,29 +95,7 @@ namespace Something
             musicPlayer.Play();
 
         }
-        /*
-        ¨*
-        public static DependencyObject FindVisualTreeDown(DependencyObject obj, Type type)
-        {
-            if(obj != null)
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-
-                    if (child.GetType() == type)
-                    {
-                        return child;
-                    }
-
-                    DependencyObject childReturn = FindVisualTreeDown(child, type);
-                    if(childReturn != null)
-                    {
-                        return childReturn;
-                    }
-                }
-            return null;
-        }*/
-
+        // TODO change to player class or figure out a way to make it prettier
         private void Player()
         {
             if (Keyboard.IsKeyDown(Key.D))
@@ -138,9 +119,10 @@ namespace Something
 
         }
 
+        // TODO FIX THIS into a class 
         private void RedBlock()
         {
-            if (IsMoving == false && TargetMove != 0)
+            if ( TargetMove != 0)
                 switch (TargetMove)
                 {
                     case 1:
@@ -190,67 +172,35 @@ namespace Something
         }
 
 
-
-        private void GoalPulse()
+        // TODO Figure out how to get 
+        // colortest1.offset = pulsers[0] and other similar things out of here
+        private void GoalPulse() 
         {
             CollisionDetect(rctPlayer, BlueGoal);
             CollisionDetect(rctTarget, rctGoal);
-            double pulse1 = 0.02;
-            double pulse2 = 0.005;
-            Random rand = new Random();
-            pulse2 = rand.NextDouble() / 100;
 
-            if (d.Offset < 0.95 && IsPulsing == true)
-            {
-                colorTest1.Offset += pulse1;
-                plrColor.Offset += pulse1;
-                enmColor.Offset += pulse1;
-                d.Offset += pulse1;
-            }
-            else
-            {
-                IsPulsing = false;
-                colorTest1.Offset -= pulse2;
-                plrColor.Offset -= pulse2;
-                enmColor.Offset -= pulse2;
-                d.Offset -= pulse2;
+            TimeTest.Content = "1. colortest1\n" + colorTest1.Offset;
+            Pulser.Pulsing(Pulsers, PulseBool);
+            colorTest1.Offset = Pulsers[0];
+            colorTest1.Offset = Pulsers[1];
+            enmColor.Offset = Pulsers[2];
+            d.Offset = Pulsers[3];
 
+            
+            win[0] = rdL.Offset;
+            win[1] = blL.Offset;
 
-                if (d.Offset <= 0.05)
-                {
-                    IsPulsing = true;
-                }
-            }
+            Pulser.WinPulse(win, winBool);
 
-            if (RedWin == true)
-            {
-                if (rdL.Offset < 1)
-                    rdL.Offset += pulse2;
-            }
-            else
-            {
-                if (rdL.Offset > 0.05)
-                {
-                    rdL.Offset -= pulse2;
-                }
-            }
+            rdL.Offset = win[0];
+            blL.Offset = win[1];
 
-            if (BlueWin == true)
-            {
-                if (blL.Offset < 1)
-                    blL.Offset += pulse2;
-            }
-            else {
-                if (blL.Offset > 0.05)
-                {
-                    blL.Offset -= pulse2;
-                }
-            }
+            
         }
 
 
 
-
+        
         private void GameLoop(object sender, EventArgs e)
         {
             try {
@@ -264,7 +214,7 @@ namespace Something
                 GoalPulse();
 
                 //TimeTest.Content = DateTime.Now.ToLongTimeString();
-                TimeTest.Content = "player x" + rctPlayer.Margin.Left + " " + rctTarget.Margin.Left + "\n" + "player y" + rctPlayer.Margin.Top;
+               
                 Player();
 
                 
@@ -274,6 +224,7 @@ namespace Something
 
         }
 
+        // TODO make it better
         private bool CollisionTest(Shape player)
         {
             bool dum = true;
@@ -287,7 +238,7 @@ namespace Something
             return dum;
         }
 
-
+        // not important, 
         private void LightTransform(List<SkewTransform> angle, int maxAngle, int minAngle, bool side)
         {
             foreach (var item in angle)
@@ -308,7 +259,7 @@ namespace Something
 
 
 
-
+        // TODO Make it prettier
         private bool CollisionDetect(Shape playerBox, Shape objB)
         {
 
@@ -362,7 +313,7 @@ namespace Something
                     else if (playerBox.Name == "rctTarget")
                     {
 
-                        if (objB.Name == "rctGoal") { RedWin = true; }
+                        if (objB.Name == "rctGoal") { winBool[0] = true; }
                             
                         else if (objB.Name != "rctPlayer") { trgMove = false; }
                     }
@@ -371,11 +322,11 @@ namespace Something
 
 
                         if (objB.Name == "BlueGoal")
-                        { BlueWin = true; }
+                        { winBool[1] = true; }
 
 
                     }
-                    else { BlueWin = false; }
+                    else { winBool[1] = false; }
                     return false;
                 }
 
@@ -389,11 +340,12 @@ namespace Something
 
 
 
-        // rotates the canvas 
+        // Keydown functions
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
+                //TODO remove or something this
                 case Key.Q:
                     RotateTest += 45;
                     cnvRotate.Angle = RotateTest;
@@ -423,6 +375,7 @@ namespace Something
                         IsPaused = false;
                     }
                     break;
+
                 case Key.R:
 
                     if (IsPaused == true)
@@ -441,7 +394,7 @@ namespace Something
         }
 
 
-
+        //TODO Check this out
         private void Jumping()
         {
 
@@ -455,14 +408,14 @@ namespace Something
 
 
 
-
+        // works perfectly
         private void Quit_Game(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
 
-
+        
         private void Continue(object sender, RoutedEventArgs e)
         {
             PauseScreen.Visibility = Visibility.Hidden;

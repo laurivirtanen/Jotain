@@ -70,6 +70,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Levels\Splash.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,12 +82,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Class.cs" />
+    <Compile Include="Classes\BasicBlock.cs" />
+    <Compile Include="Classes\Player.cs" />
+    <Compile Include="Classes\PulsingLight.cs" />
     <Compile Include="Levels\EndOfLevel.xaml.cs">
       <DependentUpon>EndOfLevel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Levels\Level1.xaml.cs">
       <DependentUpon>Level1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Levels\Splash.xaml.cs">
+      <DependentUpon>Splash.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -120,6 +129,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\otus.jpg" />
     <Content Include="Sound\BB_DRL__086.wav" />
   </ItemGroup>
   <ItemGroup />

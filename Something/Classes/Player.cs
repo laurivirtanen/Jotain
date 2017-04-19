@@ -106,59 +106,6 @@ namespace Something
 
 
     // all Things Blocky baseclass to be implemented
-    class Block : Shape
-    {
-        private double width;
-        public new double Width
-        {
-            get { return width; }
-            set { width = value; }
-        }
-
-        private double height;
-        public new double Height
-        {
-            get { return height; }
-            set { height = value; }
-        }
-
-        private Thickness placement;
-
-        public Thickness Placement
-        {
-            get { return placement; }
-            set { placement = value; }
-        }
-
-
-        public Block(Thickness plc, double hgt, double wdt)
-        {
-            Placement = plc;
-            Height = hgt;
-            Width = wdt;
-        }
-
-        protected override Geometry DefiningGeometry
-        {
-            get
-            {
-
-                throw new NotImplementedException();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
+    
 
 }
