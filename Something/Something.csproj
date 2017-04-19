@@ -62,11 +62,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="EndOfLevel.xaml">
+    <Page Include="Levels\EndOfLevel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Level1.xaml">
+    <Page Include="Levels\Level1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,10 +79,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Class.cs" />
-    <Compile Include="EndOfLevel.xaml.cs">
+    <Compile Include="Levels\EndOfLevel.xaml.cs">
       <DependentUpon>EndOfLevel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Level1.xaml.cs">
+    <Compile Include="Levels\Level1.xaml.cs">
       <DependentUpon>Level1.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
@@ -122,6 +122,7 @@
   <ItemGroup>
     <Content Include="Sound\BB_DRL__086.wav" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -59,7 +59,7 @@ namespace Something
                 timer.Tick += new EventHandler(GameLoop);
                 timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
                 InitStuff();
-                timer.Start();
+               // timer.Start();
             }
             catch (Exception ex)
             {
@@ -254,6 +254,11 @@ namespace Something
         private void GameLoop(object sender, EventArgs e)
         {
             try {
+                if(blL.Offset > 0.6 && rdL.Offset > 0.6)
+                {
+                    gameWindow.Show();
+                    this.Close();
+                }
                 if (IsGrounded == true) { Jumping(); }
                 RedBlock();
                 GoalPulse();
@@ -262,11 +267,7 @@ namespace Something
                 TimeTest.Content = "player x" + rctPlayer.Margin.Left + " " + rctTarget.Margin.Left + "\n" + "player y" + rctPlayer.Margin.Top;
                 Player();
 
-                if(RedWin == true && BlueWin == true)
-                {
-                    gameWindow.Show();
-                    this.Close();
-                }
+                
                 RedBlock();
                 }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
@@ -361,8 +362,8 @@ namespace Something
                     else if (playerBox.Name == "rctTarget")
                     {
 
-                        if (objB.Name == "rctGoal")
-                            RedWin = true;
+                        if (objB.Name == "rctGoal") { RedWin = true; }
+                            
                         else if (objB.Name != "rctPlayer") { trgMove = false; }
                     }
                     else if (playerBox.Name == "rctPlayer")
@@ -397,6 +398,7 @@ namespace Something
                     RotateTest += 45;
                     cnvRotate.Angle = RotateTest;
                     break;
+
                 case Key.Space:
                     IsGrounded = true;
                     if (IsPaused == true)
