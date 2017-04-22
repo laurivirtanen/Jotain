@@ -9,11 +9,16 @@
         WindowStyle="None"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
-        Background="#FF342034"
         
-        Title="Splash" Height="300" Width="300">
+        Title="Splash" Height="500" Width="500">
+    <Window.Background>
+        <RadialGradientBrush>
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="#FF0D093C"/>
+        </RadialGradientBrush>
+    </Window.Background>
     <Grid>
-        <Label Content="GAME OF BLOCKS" FontSize="35"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke"/>
-        <ProgressBar x:Name="Sup" Value="{Binding LoadingScreen, Mode=TwoWay}" Background="#FF3C2F3C" Height="34" Margin="0,150,0,0" Foreground="Black" SmallChange="1" LargeChange="0" Width="297" />
+        <Label Content="GAME OF BLOCKS" FontSize="48" FontFamily="OCR A Extended" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="WhiteSmoke"/>
+        <ProgressBar x:Name="Sup"  Background="#FF0D093C" Height="34" Margin="0,150,0,0" Foreground="Black" SmallChange="1" LargeChange="0" Width="450" IsIndeterminate="True" />
     </Grid>
 </Window>

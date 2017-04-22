@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Something"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="400">
+        Icon="/Images/icon.ico"
+        Title="Blocks" Height="700" Width="400">
     <Grid Background="Black">
         <StackPanel>
             <!--<Image Source=""/> -->

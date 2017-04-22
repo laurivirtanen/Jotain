@@ -9,15 +9,17 @@ namespace Something
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, ISwitchable
     {
         Random rnd = new Random();
+        
         bool Lights;
         DispatcherTimer timer = new DispatcherTimer();
 
         public MainWindow()
         {
             InitializeComponent();
+            
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
             timer.Start();
@@ -57,24 +59,36 @@ namespace Something
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
 
-            Level1 gameWindow = new Level1();
-            gameWindow.Show();
-
             Splash splash = new Splash();
             splash.Show();
+            Level1 gameWindow = new Level1();
 
             MainWindow main = new MainWindow();
-
 
             for (int i = 0; i < 100; i++)
             {
                 Thread.Sleep(i);
             }
-            splash.Close();
 
             gameWindow.Show();
+            new PageTest();
+            for (int i = 0; i < 5; i++)
+            {
+                Thread.Sleep(i);
+            }
+
+            splash.Close();
+            
 
             this.Close();
         }
+        
+
+        #region ISwitchable Members
+        public void UtilizeState(object state)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

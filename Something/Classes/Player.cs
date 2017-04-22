@@ -4,31 +4,19 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Shapes;
+using Something.Classes;
 
 namespace Something
 {
-    class Player : INotifyPropertyChanged
+    public class Player : MovingBlock, INotifyPropertyChanged
     {
-        public double moving = 5;
         public double gravity = 5;
         public int jumpCounter = 0;
         double jump;
         public bool IsGrounded;
-        public double Height { get; set; }
-        public double Width { get; set; }
-        private Thickness placement;
-        public Thickness Placement
-        {
-            get
-            {
-                return placement;
-            }
-            set
-            {
-                placement = value;
-                RaisePropertyChanged();
-            }
-        }
+        public int TargetMove = 0;
+        public bool trgMove;
+        
 
         public Player(Thickness plc, double hgt, double wdt)
         {
@@ -86,26 +74,84 @@ namespace Something
                             return false;
                     }
                 }
-           
-            else { jumpCounter = 0; return false; }
+
+                else { jumpCounter = 0; return false; }
             }
             else { return false; }
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        public bool CollisionDetect(Shape playerBox, Shape objB)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+
+            Rect playerBox_rect = new Rect();
+            Rect objB_rect = new Rect();
+
+            playerBox_rect.X = playerBox.Margin.Left;
+            playerBox_rect.Y = playerBox.Margin.Top;
+            playerBox_rect.Width = playerBox.ActualWidth;
+            playerBox_rect.Height = playerBox.ActualHeight;
+
+
+            objB_rect.X = objB.Margin.Left;
+            objB_rect.Y = objB.Margin.Top;
+            objB_rect.Width = objB.ActualWidth;
+            objB_rect.Height = objB.ActualHeight;
+
+            if ((objB_rect.X < (playerBox_rect.X + playerBox_rect.Width) &&
+               (objB_rect.X + objB_rect.Width) > playerBox_rect.X))
+                if (
+                 (objB_rect.Y < (playerBox_rect.Y + playerBox_rect.Height)) &&
+                 (objB_rect.Y + objB_rect.Height) > playerBox_rect.Y)
+                {
+                    if (objB.Name == "rctTarget")
+                    {
+                        // punasen palikan liikuttelu 
+                        if (trgMove == false)
+                        {
+                            trgMove = true;
+                            //vasemmalle
+                            if ((playerBox_rect.X + playerBox_rect.Width - 4) <= objB_rect.X)
+                            {
+                                TargetMove = 2;
+                            }
+                            //ylös
+                            else if (playerBox_rect.Y + playerBox_rect.Height - 4 <= objB_rect.Y)
+                            {
+                                TargetMove = 4;
+                            }
+                            //alas
+                            else if (playerBox_rect.Y >= objB_rect.Y + objB_rect.Height - 4)
+                            {
+                                TargetMove = 3;
+                            }
+                            else //oikealle TODO paremmi9n
+                            { TargetMove = 1; }
+                        }
+
+
+                    }
+                    
+                    else if (objB.Name == "BlueGoal")
+                    
+                        {  winCondition = true; }
+                    
+                    return false;
+                }
+
+                else
+                {
+                    return true;
+                }
+            return true;
         }
+
+        
+
+
+
+        // all Things Blocky baseclass to be implemented
+
     }
-
-
-    // all Things Blocky baseclass to be implemented
-    
-
 }
