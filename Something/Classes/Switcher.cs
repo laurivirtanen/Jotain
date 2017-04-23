@@ -22,7 +22,7 @@ namespace Something.Classes
             pageSwitcher.Navigate(newPage, state);
         }
 
-        internal static void Switch(PageTest pageTest)
+        internal static void Switch(Level1 level)
         {
             throw new NotImplementedException();
         }

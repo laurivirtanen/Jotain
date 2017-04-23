@@ -20,7 +20,7 @@ namespace Something.Control
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Switcher.Switch(new PageTest());
+            Switcher.Switch(new Level1());
         }
 
         #region ISwitchable Members

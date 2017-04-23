@@ -223,20 +223,12 @@ namespace Something.Levels
         {
             try
             {
-                if (blL.Offset > 0.6 && rdL.Offset > 0.6)
-                {
-                    blL.Offset = 0.05;
-                    rdL.Offset = 0.05;
-                    player1.winCondition = false;
-                    target.winCondition = false;
-                    daa.Content = new PageTest();
-                    timer.Stop();
-                }
-                
-                if (IsGrounded == true) { Jumping(); }
+
+                Jumping(); 
                 GoalPulse();
                 Player();
                 RedBlock();
+                EndLevel();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
@@ -275,7 +267,17 @@ namespace Something.Levels
             }
         }
 
-
+        private void EndLevel()
+        {
+            if (blL.Offset > 0.6 && rdL.Offset > 0.6)
+            {
+                blL.Offset = 0.05;
+                rdL.Offset = 0.05;
+                player1.winCondition = false;
+                target.winCondition = false;
+                timer.Stop();
+            }
+        }
 
         // TODO Make it prettier
         private bool CollisionDetect(Shape playerBox, Shape objB)
@@ -383,12 +385,13 @@ namespace Something.Levels
         //TODO Check this out
         private void Jumping()
         {
+            if(IsGrounded == true) {
+                IsGrounded = player1.Jumping(0);
+                if (player1.jumpCounter == 1) { }
 
-            IsGrounded = player1.Jumping(0);
-            if (player1.jumpCounter == 1) { }
-
-            if (CollisionTest(rctPlayer)) { }
-            else { IsGrounded = player1.Jumping(1); player1.jumpCounter = 45; }
+                if (CollisionTest(rctPlayer)) { }
+                else { IsGrounded = player1.Jumping(1); player1.jumpCounter = 45; }
+            }
 
         }
 

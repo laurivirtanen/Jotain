@@ -10,13 +10,13 @@
         KeyDown="Window_KeyDown"
         ResizeMode="CanMinimize"
         Title="Block"  Width="800" Height="600">
-    <Canvas x:Name="cnvBase" Width="800" Height="600"   Opacity="1" RenderTransformOrigin="0.5,0.5" Background="#FF5B5B5B">
-       
+    <Canvas x:Name="cnvBase" Width="800" Height="600"   Opacity="1" RenderTransformOrigin="0.5,0.5" Background="yellow">
+
 
         <Canvas.RenderTransform>
             <RotateTransform x:Name="cnvRotate"/>
         </Canvas.RenderTransform>
-        <MediaElement x:Name="musicPlayer" Volume="0.1" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\space.flac" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True" />
+        <MediaElement x:Name="musicPlayer" Volume="0.1" Source="F:\GIT\TTO0300_Harkka\Something\Sound\space.flac"  LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True" />
         <MediaElement x:Name="pauseMusic" Source="F:\KOULU\PELIN OSAT\Navigation_Button_19.wav" Volume="0.1" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True" />
         <MediaElement x:Name="jump" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\BB_DRL__086.wav" Volume="0.005" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True"/>
         <MediaElement x:Name="Collision" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\FS Concrete Soldier Crouch N02.wav" Volume="0.005" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True"/>

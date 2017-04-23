@@ -151,7 +151,7 @@
         </Rectangle>
 
 
-        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 2 - daa" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
+        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 3 - daa" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
 
         <Rectangle x:Name="rctLeftBlo" Margin="145,425,0,0" Height="8" Width="8" Panel.ZIndex="3" Fill="#FF0051FF" Cursor="Arrow" IsHitTestVisible="True"/>
         <Rectangle x:Name="BlueGoal" Panel.ZIndex="-1" Margin="140,420,0,0" Height="80" Width="80" Cursor="Arrow" IsHitTestVisible="True">

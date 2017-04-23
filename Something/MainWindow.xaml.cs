@@ -71,7 +71,7 @@ namespace Something
             }
 
             gameWindow.Show();
-            new PageTest();
+            new Level1();
             for (int i = 0; i < 5; i++)
             {
                 Thread.Sleep(i);

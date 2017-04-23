@@ -66,6 +66,12 @@
     <Compile Include="Classes\Switcher.cs" />
     <Compile Include="Control\UCTest.cs" />
     <Compile Include="ISwitchable.cs" />
+    <Compile Include="Levels\Level2.xaml.cs">
+      <DependentUpon>Level2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Levels\Level4.xaml.cs">
+      <DependentUpon>Level4.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Levels\Level3.xaml.cs">
       <DependentUpon>Level3.xaml</DependentUpon>
     </Compile>
@@ -80,11 +86,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Levels\Level3.xaml">
+    <Page Include="Levels\Level2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Levels\PageTest.xaml">
+    <Page Include="Levels\Level4.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Levels\Level3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,9 +118,6 @@
     </Compile>
     <Compile Include="Levels\Level1.xaml.cs">
       <DependentUpon>Level1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Levels\PageTest.xaml.cs">
-      <DependentUpon>PageTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="Levels\Splash.xaml.cs">
       <DependentUpon>Splash.xaml</DependentUpon>
@@ -154,11 +161,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sound\space.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\otus.jpg" />
     <Resource Include="Images\Icon.ico" />
     <Resource Include="Icon.ico" />
     <Resource Include="Images\ICON2.ico" />
-    <Content Include="Sound\BB_DRL__086.wav" />
+    <Content Include="Sound\BB_DRL__086.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

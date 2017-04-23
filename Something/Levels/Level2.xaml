@@ -1,0 +1,173 @@
+﻿<Page x:Class="Something.Levels.Level2"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Something.Levels"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="PageTest">
+
+    <Canvas x:Name="cnvBase" Width="800" Height="600"   Opacity="1" RenderTransformOrigin="0.5,0.5" Background="#FF5B5B5B">
+
+        <Canvas.RenderTransform>
+            <RotateTransform x:Name="cnvRotate"/>
+        </Canvas.RenderTransform>
+        <Rectangle x:Name="rctBottom" Margin="0,600,0,0" Height="800" Width="800" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop" Margin="350,450,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop2" Margin="64,330,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop1" Margin="344,0,0,0"  Height="32" Width="32" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+
+        <Rectangle x:Name="rctBottomStop3" Margin="650,370,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop4" Margin="420,290,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop5" Margin="64,110,0,0"  Height="32" Width="240" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop6" Margin="420,110,0,0"  Height="32" Width="138" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctMid" Height="32" Margin="297,200,0,0" Width="128" Cursor="Arrow" IsHitTestVisible="True" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0.05"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="rctRight" Margin="560,200,0,0" Height="32" Width="160" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0.05"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+        <Rectangle x:Name="rctGoal" Margin="600,120,0,0" Height="80" Width="80" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop  Color="#54EC1010"/>
+                    <GradientStop x:Name="d" Color="#E7200202" Offset="0.076"/>
+
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="rctRight2" Margin="6064,124,0,0" Height="8" Width="8" Fill="White" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctPlayer" Margin="{Binding Placement, Mode=TwoWay}"  Width="{Binding Path=Width}" Height="{Binding Path=Height}" Stroke="#FF08092E" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="0.815"/>
+                    <GradientStop x:Name="plrColor" Color="Black" Offset="0.074"/>
+                    <GradientStop  Color="#FF002CFF" Offset="0.013"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="rctMid_Copy" Margin="128,500,0,0"  Height="32" Width="128" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0.05"/>
+                    <GradientStop Color="White" Offset="0.039"/>
+                    <GradientStop Color="#FF060606"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="Light" Margin="127,300,0,0" Height="200" Width="128" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="1,1" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF5B5B5B" Offset="0.4"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform x:Name="rctSkew2" AngleX="25"/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle x:Name="LightMid" Height="232" Width="128" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Cursor="Arrow" IsHitTestVisible="True" Canvas.Left="297">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF5B5B5B" Offset="0.4"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform x:Name="rctSkew" AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+        <Rectangle x:Name="LeftWall" Margin="-1600,-1500,0,0" Height="3000" Width="1600" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="RightWall" Panel.ZIndex="3" Margin="800,-1500,0,0" Height="3000" Width="1600" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="Ceiling" Height="1500" Width="800" Margin="0,-1500,0,0" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctTarget" Margin="{Binding Placement, Mode=TwoWay}"  Width="{Binding Path=Width}" Height="{Binding Path=Height}" Stroke="#FF490404" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="0.987"/>
+                    <GradientStop x:Name="enmColor" Color="Black" Offset="0.968"/>
+                    <GradientStop  Color="#FF890A0A" Offset="0.13"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+
+        <Label x:Name="TimeTest" Width="190" Height="45" Canvas.Left="585" TextBlock.TextAlignment="Center"  Canvas.Top="0" Panel.ZIndex="455" Foreground="White" Cursor="Arrow" IsHitTestVisible="True" />
+        <Rectangle x:Name="redLight" Width="64" Height="64" Margin="450,-70,0,0" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFEA0202"/>
+                    <GradientStop x:Name="rdL" Color="Black" Offset="0.0"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="blueLight" Width="64" Height="64" Margin="524,-70,0,0" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF002EFF"/>
+                    <GradientStop x:Name="blL" Color="Black" Offset="0.0"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle x:Name="LightRight" Height="200" Width="160" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Margin="560,0,0,0" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF5B5B5B" Offset="0.353"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform x:Name="rctSkew1"  AngleX="-20"/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Rectangle.RenderTransform>
+        </Rectangle>
+
+
+        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 2 - daa" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
+
+        <Rectangle x:Name="rctLeftBlo" Margin="145,425,0,0" Height="8" Width="8" Panel.ZIndex="3" Fill="#FF0051FF" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="BlueGoal" Panel.ZIndex="-1" Margin="140,420,0,0" Height="80" Width="80" Cursor="Arrow" IsHitTestVisible="True">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop  Color="#E7092CD3"/>
+                    <GradientStop x:Name="colorTest1" Color="#E7061457" Offset="0.076"/>
+
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
+
+
+
+        <Frame x:Name="daa" Margin="0"></Frame>
+    </Canvas>
+</Page>

@@ -25,7 +25,7 @@ namespace Something
         {
             InitializeComponent();
             Switcher.pageSwitcher = this;
-            Switcher.Switch(new PageTest());
+            Switcher.Switch(new Level1());
         }
 
         public void Navigate(UserControl nextPage)

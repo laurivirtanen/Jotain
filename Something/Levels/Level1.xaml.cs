@@ -23,8 +23,8 @@ namespace Something
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
         List<SkewTransform> Lights = new List<SkewTransform>();
-
         PulsingLight Pulser = new PulsingLight();
+
         //Pulsebool and pulsers are used for pulsing or changing lights
         bool[] PulseBool = new bool[4];
         double[] Pulsers = new double[4];
@@ -37,7 +37,6 @@ namespace Something
 
         private bool IsGrounded = false;
         public bool IsPaused = true;
-
         public double RotateTest { get; set; }
 
 
@@ -71,7 +70,7 @@ namespace Something
             {
                 PulseBool[i] = true;
             }
-
+            cnvBase.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
             rctPlayer.DataContext = player;
             rctTarget.DataContext = target;
             
@@ -182,15 +181,13 @@ namespace Something
         {
             player.CollisionDetect(rctPlayer, BlueGoal);
             target.CollisionDetect(rctTarget, rctGoal);
-
-            //TimeTest.Content = "1. colortest1\n" + colorTest1.Offset;
+            
             Pulser.Pulsing(Pulsers, PulseBool);
             colorTest1.Offset = Pulsers[0];
             colorTest1.Offset = Pulsers[1];
             enmColor.Offset = Pulsers[2];
             d.Offset = Pulsers[3];
-
-
+            
             win[0] = rdL.Offset;
             win[1] = blL.Offset;
             winBool[0] = target.winCondition;
@@ -217,36 +214,26 @@ namespace Something
         {
             try {
 
-                if(blL.Offset > 0.6 && rdL.Offset > 0.6)
-                {
-                    blL.Offset = 0.05;
-                    rdL.Offset = 0.05;
-                    player.winCondition = false;
-                    target.winCondition = false;
-                    IsGrounded = true;
-                    daa.Content = new Level3();
-
-                    //gameWindow.Show();
-                    //Switcher.Switch(new PageTest());
-                    //this.Close();
-                }
+                EndLevel();
                 GoalPulse();
-                TimeTest.Content = "laalaa";
-                //TimeTest.Content = DateTime.Now.ToLongTimeString();
-
-                TimeTest.Content = timer.Interval;
                 Player();
-
-                foreach (var item in mapBlocks)
-                {
-                    player.CollisionDetect(rctPlayer, item);
-
-                }
-
                 RedBlock();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
+        }
+
+        private void EndLevel()
+        {
+            if (blL.Offset > 0.6 && rdL.Offset > 0.6)
+            {
+                blL.Offset = 0.05;
+                rdL.Offset = 0.05;
+                player.winCondition = false;
+                target.winCondition = false;
+                IsGrounded = true;
+                daa.Content = new Level2();
+            }
         }
 
         // TODO make it better
@@ -300,9 +287,11 @@ namespace Something
                 case Key.Space:
 
                     IsGrounded = true;
+
                     if (IsPaused == true)
                     {
                         IsPaused = false;
+                        musicPlayer.Play();
                         PauseScreen.Visibility = Visibility.Hidden;
                         timer.Start();
                     }
