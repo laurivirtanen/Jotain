@@ -34,7 +34,7 @@ namespace Something.Levels
         double[] win = new double[2];
         bool[] winBool = new bool[2];
 
-        Player player1 = new Player(new Thickness(32, 32, 0, 0), 32, 32);
+        Player player1 = new Player(new Thickness(32, 256, 0, 0), 32, 32);
         public BasicBlock target = new BasicBlock(new Thickness(500, 500, 0, 0), 32, 32);
 
         private bool trgMove = false;
@@ -275,6 +275,7 @@ namespace Something.Levels
                 player1.winCondition = false;
                 target.winCondition = false;
                 timer.Stop();
+                daa.Content = new Level2();
             }
         }
 

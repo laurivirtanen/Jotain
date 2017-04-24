@@ -3,24 +3,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpfanimated="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:Something"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
         KeyDown="Window_KeyDown"
-        ResizeMode="CanMinimize"
+        ResizeMode="NoResize"
         Title="Block"  Width="800" Height="600">
     <Canvas x:Name="cnvBase" Width="800" Height="600"   Opacity="1" RenderTransformOrigin="0.5,0.5" Background="yellow">
+        
 
 
         <Canvas.RenderTransform>
             <RotateTransform x:Name="cnvRotate"/>
         </Canvas.RenderTransform>
-        <MediaElement x:Name="musicPlayer" Volume="0.1" Source="F:\GIT\TTO0300_Harkka\Something\Sound\space.flac"  LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True" />
+        <MediaElement x:Name="musicPlayer" Volume="1" Source="Sound/space.flac"  LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True" />
         <MediaElement x:Name="pauseMusic" Source="F:\KOULU\PELIN OSAT\Navigation_Button_19.wav" Volume="0.1" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True" />
         <MediaElement x:Name="jump" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\BB_DRL__086.wav" Volume="0.005" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True"/>
         <MediaElement x:Name="Collision" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\FS Concrete Soldier Crouch N02.wav" Volume="0.005" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True"/>
         <MediaElement x:Name="RedMove" Source="F:\KOULU\Olio-Ohjelmointi\TTO0200\Something\Something\Sound\CK_Force_Field_Loop-32.wav" Volume="0.005" LoadedBehavior="Manual" Cursor="Arrow" IsHitTestVisible="True"/>
+       
         <Rectangle x:Name="rctBottom" Margin="0,368,0,0" Height="1132" Width="800" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
         <Rectangle x:Name="rctBottomStop" Margin="420,290,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
         <Rectangle x:Name="rctMid" Margin="250,200,0,0" Height="32" Width="128" Cursor="Arrow" IsHitTestVisible="True">

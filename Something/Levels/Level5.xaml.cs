@@ -1,24 +1,27 @@
 ﻿using Something.Classes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-/// <summary>
-/// Song from (https://soundcloud.com/laserost)  (http://www.youtube.com/user/Manofunctional).
-/// </summary>
 
-
-namespace Something
+namespace Something.Levels
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PageTest.xaml
     /// </summary>
-    public partial class Level : Window
+    public partial class Level5 : Page, ISwitchable
     {
-
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
         List<SkewTransform> Lights = new List<SkewTransform>();
@@ -31,27 +34,26 @@ namespace Something
         double[] win = new double[2];
         bool[] winBool = new bool[2];
 
-        Player player = new Player(new Thickness(32, 300, 0, 0), 32, 32);
-
+        Player player1 = new Player(new Thickness(32, 256, 0, 0), 32, 32);
+        public BasicBlock target = new BasicBlock(new Thickness(500, 500, 0, 0), 32, 32);
 
         private bool trgMove = false;
         private int TargetMove = 0;
-        private bool IsGrounded = false;
-        private bool IsPaused = true;
+        private bool IsGrounded = true;
 
         public double RotateTest { get; set; }
 
 
-        public Level()
+        public Level5()
         {
             try
             {
                 InitializeComponent();
                 RotateTest = 0;
                 timer.Tick += new EventHandler(GameLoop);
-                timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+                timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
                 InitStuff();
-                // timer.Start();
+                timer.Start();
             }
             catch (Exception ex)
             {
@@ -70,13 +72,20 @@ namespace Something
                 PulseBool[i] = true;
             }
 
-            rctPlayer.DataContext = player;
+            rctPlayer.DataContext = player1;
+            rctTarget.DataContext = target;
 
             winBool[0] = false;
             winBool[1] = false;
             //collision list
             mapBlocks.Add(rctBottom);
             mapBlocks.Add(rctBottomStop);
+            mapBlocks.Add(rctBottomStop1);
+            mapBlocks.Add(rctBottomStop2);
+            mapBlocks.Add(rctBottomStop3);
+            mapBlocks.Add(rctBottomStop4);
+            mapBlocks.Add(rctBottomStop5);
+            mapBlocks.Add(rctBottomStop6);
             mapBlocks.Add(rctMid);
             mapBlocks.Add(rctMid_Copy);
             mapBlocks.Add(LeftWall);
@@ -84,13 +93,14 @@ namespace Something
             mapBlocks.Add(Ceiling);
             mapBlocks.Add(rctRight);
             mapBlocks.Add(rctTarget);
+
+
+
             //"lights"
             Lights.Add(rctSkew);
             Lights.Add(rctSkew1);
             Lights.Add(rctSkew2);
 
-            jump.Stop();
-            musicPlayer.Play();
 
         }
         // TODO change to player class or figure out a way to make it prettier
@@ -98,22 +108,28 @@ namespace Something
         {
             if (Keyboard.IsKeyDown(Key.D))
             {
-                player.MovePlayer(0);
+                player1.MovePlayer(0);
                 if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50, true); }
-                else { player.MovePlayer(1); player.IsGrounded = true; }
+                else { player1.MovePlayer(1); player1.IsGrounded = true; }
 
             }
             if (Keyboard.IsKeyDown(Key.A))
             {
-                player.MovePlayer(1);
+                player1.MovePlayer(1);
                 if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50, false); }
-                else { player.MovePlayer(0); player.IsGrounded = true; }
+                else { player1.MovePlayer(0); player1.IsGrounded = true; }
+            }
+            if (Keyboard.IsKeyDown(Key.Space))
+            {
+                IsGrounded = true;
             }
 
+
+
             // moves the red block
-            player.MovePlayer(2);
+            player1.MovePlayer(2);
             if (CollisionTest(rctPlayer)) { }
-            else { player.MovePlayer(3); }
+            else { player1.MovePlayer(3); }
 
         }
 
@@ -124,41 +140,41 @@ namespace Something
                 switch (TargetMove)
                 {
                     case 1:
-                        mapBlocks.RemoveAt(8);
-                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left + player.moving, rctTarget.Margin.Top, 0, 0); }
+                        mapBlocks.RemoveAt(14);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left + player1.moving, rctTarget.Margin.Top, 0, 0); }
                         else
                         {
-                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left - player.moving, rctTarget.Margin.Top, 0, 0);
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left - player1.moving, rctTarget.Margin.Top, 0, 0);
                             TargetMove = 0;
                         }
                         mapBlocks.Add(rctTarget);
                         break;
                     case 2:
-                        mapBlocks.RemoveAt(8);
-                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left - player.moving, rctTarget.Margin.Top, 0, 0); }
+                        mapBlocks.RemoveAt(14);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left - player1.moving, rctTarget.Margin.Top, 0, 0); }
                         else
                         {
-                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left + player.moving, rctTarget.Margin.Top, 0, 0);
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left + player1.moving, rctTarget.Margin.Top, 0, 0);
                             TargetMove = 0;
                         }
                         mapBlocks.Add(rctTarget);
                         break;
                     case 3:
-                        mapBlocks.RemoveAt(8);
-                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top + player.moving, 0, 0); }
+                        mapBlocks.RemoveAt(14);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top + player1.moving, 0, 0); }
                         else
                         {
-                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top - player.moving, 0, 0);
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top - player1.moving, 0, 0);
                             TargetMove = 0;
                         }
                         mapBlocks.Add(rctTarget);
                         break;
                     case 4:
-                        mapBlocks.RemoveAt(8);
-                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top - player.moving, 0, 0); }
+                        mapBlocks.RemoveAt(14);
+                        if (CollisionTest(rctTarget)) { rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top - player1.moving, 0, 0); }
                         else
                         {
-                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top + player.moving, 0, 0);
+                            rctTarget.Margin = new Thickness(rctTarget.Margin.Left, rctTarget.Margin.Top + player1.moving, 0, 0);
                             TargetMove = 0;
                         }
                         mapBlocks.Add(rctTarget);
@@ -177,7 +193,6 @@ namespace Something
             CollisionDetect(rctPlayer, BlueGoal);
             CollisionDetect(rctTarget, rctGoal);
 
-            //  TimeTest.Content = "1. colortest1\n" + colorTest1.Offset;
             Pulser.Pulsing(Pulsers, PulseBool);
             colorTest1.Offset = Pulsers[0];
             colorTest1.Offset = Pulsers[1];
@@ -208,16 +223,10 @@ namespace Something
         {
             try
             {
-                if (blL.Offset > 0.6 && rdL.Offset > 0.6)
-                {
-                    this.Close();
-                }
+
+                EndLevel();
                 if (IsGrounded == true) { Jumping(); }
-                
                 GoalPulse();
-
-                //TimeTest.Content = DateTime.Now.ToLongTimeString();
-
                 Player();
                 RedBlock();
             }
@@ -257,7 +266,18 @@ namespace Something
                 }
             }
         }
-
+        private void EndLevel()
+        {
+            if (blL.Offset > 0.6 && rdL.Offset > 0.6)
+            {
+                blL.Offset = 0.05;
+                rdL.Offset = 0.05;
+                player1.winCondition = false;
+                target.winCondition = false;
+                timer.Stop();
+                daa.Content = new Level2();
+            }
+        }
 
 
         // TODO Make it prettier
@@ -321,12 +341,9 @@ namespace Something
                     }
                     else if (playerBox.Name == "rctPlayer")
                     {
-
-
                         if (objB.Name == "BlueGoal")
                         { winBool[1] = true; }
-
-
+                        else { winBool[1] = false; }
                     }
                     else { winBool[1] = false; }
                     return false;
@@ -343,104 +360,51 @@ namespace Something
 
 
         // Keydown functions
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                //TODO remove or something this
-                case Key.Q:
-                    RotateTest += 45;
-                    cnvRotate.Angle = RotateTest;
-                    break;
+        /* private void Window_KeyDown(object sender, KeyEventArgs e)
+         {
+             switch (e.Key)
+             {
+                 //TODO remove or something this
+                 case Key.Q:
+                     RotateTest += 45;
+                     cnvRotate.Angle = RotateTest;
+                     break;
 
-                case Key.Space:
-                    IsGrounded = true;
-                    if (IsPaused == true)
-                    {
-                        IsPaused = false;
-                        PauseScreen.Visibility = Visibility.Hidden;
-                        timer.Start();
-                    }
-                    break;
-                case Key.Escape:
-                    if (IsPaused == false)
-                    {
-                        musicPlayer.Pause();
+                 case Key.Space:
+                     MessageBox.Show("WORKING");
+                     IsGrounded = true;
+                     break;
+                 case Key.Escape:
+                     this.timer.Stop();
+                     break;
 
-                        pauseMusic.Play();
-                        PauseScreen.Visibility = Visibility.Visible;
-                        IsPaused = true;
-                        timer.Stop();
-                    }
-                    else
-                    {
-                        IsPaused = false;
-                    }
-                    break;
 
-                case Key.R:
-
-                    if (IsPaused == true)
-                    {
-                        Level retry = new Level();
-                        retry.Show();
-                        this.Close();
-                        PauseScreen.Visibility = Visibility.Hidden;
-                        pauseMusic.Stop();
-                        musicPlayer.Play();
-                        IsPaused = false;
-                        timer.Start();
-                    }
-                    break;
-            }
-        }
+             }
+         }*/
 
 
         //TODO Check this out
         private void Jumping()
         {
 
-            IsGrounded = player.Jumping(0);
-            if (player.jumpCounter == 1) { Collision.Stop(); jump.Play(); }
+            IsGrounded = player1.Jumping(0);
+            if (player1.jumpCounter == 1) { }
 
             if (CollisionTest(rctPlayer)) { }
-            else { IsGrounded = player.Jumping(1); player.jumpCounter = 45; jump.Stop(); Collision.Play(); }
+            else { IsGrounded = player1.Jumping(1); player1.jumpCounter = 45; }
 
         }
 
 
 
         // works perfectly
-        private void Quit_Game(object sender, RoutedEventArgs e)
+
+
+        #region ISwitchable Members
+        public void UtilizeState(object state)
         {
-            Application.Current.Shutdown();
+            throw new NotImplementedException();
         }
-
-
-
-        private void Continue(object sender, RoutedEventArgs e)
-        {
-            PauseScreen.Visibility = Visibility.Hidden;
-            pauseMusic.Stop();
-            musicPlayer.Play();
-            IsPaused = false;
-            timer.Start();
-        }
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            // restart rctTargetng
-            Level retry = new Level();
-            retry.Show();
-            Close();
-            PauseScreen.Visibility = Visibility.Hidden;
-            pauseMusic.Stop();
-            musicPlayer.Play();
-            IsPaused = false;
-            timer.Start();
-        }
-
-
+        #endregion
     }
 }

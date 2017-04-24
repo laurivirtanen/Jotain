@@ -56,6 +56,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif, Version=1.4.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfAnimatedGif.1.4.14\lib\net\WpfAnimatedGif.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -69,6 +73,9 @@
     <Compile Include="Levels\Level2.xaml.cs">
       <DependentUpon>Level2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Levels\Level5.xaml.cs">
+      <DependentUpon>Level5.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Levels\Level4.xaml.cs">
       <DependentUpon>Level4.xaml</DependentUpon>
     </Compile>
@@ -78,10 +85,6 @@
     <Compile Include="WPFPageSwitch.xaml.cs">
       <DependentUpon>WPFPageSwitch.xaml</DependentUpon>
     </Compile>
-    <Page Include="Levels\Level.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Levels\Level1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -89,6 +92,10 @@
     <Page Include="Levels\Level2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Levels\Level5.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Levels\Level4.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -113,9 +120,6 @@
     <Compile Include="Classes\BasicBlock.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Classes\PulsingLight.cs" />
-    <Compile Include="Levels\Level.xaml.cs">
-      <DependentUpon>Level.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Levels\Level1.xaml.cs">
       <DependentUpon>Level1.xaml</DependentUpon>
     </Compile>
@@ -149,6 +153,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

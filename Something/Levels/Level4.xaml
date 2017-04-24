@@ -8,21 +8,27 @@
       d:DesignHeight="600" d:DesignWidth="800"
       Title="PageTest">
 
-    <Canvas x:Name="cnvBase" Width="800" Height="600"   Opacity="1" RenderTransformOrigin="0.5,0.5" Background="#FF5B5B5B">
+    <Canvas x:Name="cnvBase" Width="800" Height="600"   Opacity="1" RenderTransformOrigin="0.5,0.5">
+        <Canvas.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="red" Offset="0"/>
+                <GradientStop Color="yellow" Offset="1"/>
+            </LinearGradientBrush>
+        </Canvas.Background>
 
         <Canvas.RenderTransform>
             <RotateTransform x:Name="cnvRotate"/>
         </Canvas.RenderTransform>
         <Rectangle x:Name="rctBottom" Margin="0,600,0,0" Height="800" Width="800" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="rctBottomStop" Margin="350,450,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop" Margin="350,450,0,0"  Height="128" Width="32" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
         <Rectangle x:Name="rctBottomStop2" Margin="64,330,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="rctBottomStop1" Margin="344,0,0,0"  Height="32" Width="32" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop1" Margin="0,0,0,0"  Height="137" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
 
-        <Rectangle x:Name="rctBottomStop3" Margin="650,370,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="rctBottomStop4" Margin="420,290,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="rctBottomStop5" Margin="64,110,0,0"  Height="32" Width="240" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="rctBottomStop6" Margin="420,110,0,0"  Height="32" Width="138" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
-        <Rectangle x:Name="rctMid" Height="32" Margin="297,200,0,0" Width="128" Cursor="Arrow" IsHitTestVisible="True" >
+        <Rectangle x:Name="rctBottomStop3" Margin="450,450,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop4" Margin="600,500,0,0"  Height="32" Width="128" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop5" Margin="128,222,0,0"  Height="32" Width="240" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctBottomStop6" Margin="420,90,0,0"  Height="32" Width="270" Fill="Black" Cursor="Arrow" IsHitTestVisible="True"/>
+        <Rectangle x:Name="rctMid" Height="32" Margin="300,350,0,0" Width="128" Cursor="Arrow" IsHitTestVisible="True" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="0.05"/>
@@ -84,7 +90,7 @@
                 </TransformGroup>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Rectangle x:Name="LightMid" Height="232" Width="128" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Cursor="Arrow" IsHitTestVisible="True" Canvas.Left="297">
+        <Rectangle x:Name="LightMid" Height="232" Width="128" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Cursor="Arrow" IsHitTestVisible="True" Canvas.Left="198">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF5B5B5B" Offset="0.4"/>
@@ -151,7 +157,7 @@
         </Rectangle>
 
 
-        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 3 - daa" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
+        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 4 - Block block" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
 
         <Rectangle x:Name="rctLeftBlo" Margin="145,425,0,0" Height="8" Width="8" Panel.ZIndex="3" Fill="#FF0051FF" Cursor="Arrow" IsHitTestVisible="True"/>
         <Rectangle x:Name="BlueGoal" Panel.ZIndex="-1" Margin="140,420,0,0" Height="80" Width="80" Cursor="Arrow" IsHitTestVisible="True">

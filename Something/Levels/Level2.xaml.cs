@@ -35,7 +35,7 @@ namespace Something.Levels
         bool[] winBool = new bool[2];
 
         Player player1 = new Player(new Thickness(32, 32, 0, 0), 32, 32);
-        public BasicBlock target = new BasicBlock(new Thickness(500, 500, 0, 0), 32, 32);
+        public BasicBlock target = new BasicBlock(new Thickness(32, 32, 0, 0), 32, 32);
 
         private bool trgMove = false;
         private int TargetMove = 0;

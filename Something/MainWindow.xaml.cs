@@ -12,7 +12,7 @@ namespace Something
     public partial class MainWindow : Window, ISwitchable
     {
         Random rnd = new Random();
-        
+       
         bool Lights;
         DispatcherTimer timer = new DispatcherTimer();
 

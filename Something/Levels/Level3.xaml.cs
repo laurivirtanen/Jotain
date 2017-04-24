@@ -276,6 +276,7 @@ namespace Something.Levels
                 player1.winCondition = false;
                 target.winCondition = false;
                 timer.Stop();
+                daa.Content = new Level4();
             }
         }
 
