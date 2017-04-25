@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using System.Windows.Navigation;
 /// <summary>
 /// Song from (https://soundcloud.com/laserost)  (http://www.youtube.com/user/Manofunctional).
+/// Harjoitustyö koulun kurssille, toivottavasti herra opettaja arvostaa spagettikoodia 
 /// </summary>
 
 
@@ -21,11 +22,15 @@ namespace Something
     /// </summary>
     public partial class Level1 : Window
     {
-
+        // dispatcherpriority.Render should make the game run smoother
         public DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Render);
+
+        //list of shapes what we want to compare against in collisiontesting
         List<Shape> mapBlocks = new List<Shape>();
+        // lights list
         List<SkewTransform> Lights = new List<SkewTransform>();
         PulsingLight Pulser = new PulsingLight();
+
         //Pulsebool and pulsers are used for pulsing or changing lights
         bool[] PulseBool = new bool[4];
         double[] Pulsers = new double[4];
@@ -34,11 +39,14 @@ namespace Something
         bool[] winBool = new bool[2];
         
         
-
+        //create player, assing it coordinates 32,300   and size 32,32
         public Player player = new Player(new Thickness(32, 300, 0, 0), 32, 32);
+
+        //create player, assing it coordinates 20,155  and size 32,32
         public MovingBlock target = new MovingBlock(new Thickness(20, 155, 0, 0), 32, 32);
 
         private bool IsGrounded = false;
+        //this was just for laughs, to test if we can rotate the whole canvas with Q -- and i thought it might be rolling physics with it
         public double RotateTest { get; set; }
         
 
@@ -121,6 +129,7 @@ namespace Something
         }
 
         // TODO FIX THIS into a class 
+        // Moves the target block when player hits it
         private void RedBlock()
         {
             if ( player.TargetMove != 0)
@@ -207,7 +216,7 @@ namespace Something
 
 
 
-        
+        // gameloop as in what happens within every tick
         private void GameLoop(object sender, EventArgs e)
         {
             try {
@@ -287,10 +296,10 @@ namespace Something
             switch (e.Key)
             {
                 //TODO remove or something this
+                //this was just for laughs, to test if we can rotate the whole canvas with Q 
                 case Key.Q:
                     RotateTest += 45;
                     cnvRotate.Angle = RotateTest;
-                    frmLevel.Content = new Level2();
                     break;
 
                 case Key.Space:
@@ -341,7 +350,7 @@ namespace Something
         }
 
 
-        //TODO Check this out
+        //TODO MAKE IT BETTER - - Player Jump 
         private void Jumping()
         {
 
@@ -361,7 +370,7 @@ namespace Something
         }
 
 
-        
+        // Continue from menu
         public void Continue(object sender, RoutedEventArgs e)
         {
             cnvPause.Visibility = Visibility.Hidden;
@@ -370,7 +379,7 @@ namespace Something
             timer.Start();
         }
 
-
+        //retry button
         public void Button_Click(object sender, RoutedEventArgs e)
         {
             // restart rctTargetng
@@ -382,7 +391,7 @@ namespace Something
                 Close();
             }
             else
-            {
+            {//resets the current level
                 switch (Config.txtLevel)
                 {
                     case 1:
@@ -401,14 +410,13 @@ namespace Something
                         break;
                 }
             }
-
             
             cnvPause.Visibility = Visibility.Hidden;
             mdePause.Stop();
             Config.Paused = false;
             timer.Start();
         }
-
+        // keeps the same song rolling
         private void mdeMusic_MediaEnded(object sender, RoutedEventArgs e)
         {
             mdeMusic.Position = TimeSpan.FromMilliseconds(0);

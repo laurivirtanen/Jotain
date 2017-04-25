@@ -142,7 +142,7 @@
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle x:Name="rctLightRight" Height="200" Width="160" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Cursor="Arrow" IsHitTestVisible="True" Canvas.Left="555" Canvas.Top="165">
+        <Rectangle x:Name="rctLightRight" Height="200" Width="160" Opacity="0.35" Panel.ZIndex="-1" RenderTransformOrigin="0,1" Cursor="Arrow" IsHitTestVisible="True" Canvas.Left="555" Canvas.Top="175">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF5B5B5B" Offset="0.353"/>
@@ -160,7 +160,7 @@
         </Rectangle>
 
 
-        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="txtLevel 2" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
+        <TextBlock x:Name="Leveli" TextWrapping="Wrap" FontWeight="Bold" FontSize="40" Foreground="White" Text="Level 2" Canvas.Left="32" Canvas.Top="-73" Cursor="Arrow" IsHitTestVisible="True"/>
 
         <Rectangle x:Name="rctLeftBlo" Margin="145,425,0,0" Height="8" Width="8" Panel.ZIndex="3" Fill="#FF0051FF" Cursor="Arrow" IsHitTestVisible="True"/>
         <Rectangle x:Name="rctBlueGoal" Panel.ZIndex="-1" Margin="140,420,0,0" Height="80" Width="80" Cursor="Arrow" IsHitTestVisible="True">

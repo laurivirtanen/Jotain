@@ -33,45 +33,45 @@ namespace Something.Classes
             }
         }
 
-        public virtual bool CollisionDetect(Shape playerBox, Shape objB)
+        public virtual bool CollisionDetect(Shape plrBlock, Shape otherBlock)
         {
 
-            Rect playerBox_rect = new Rect();
-            Rect objB_rect = new Rect();
+            Rect plrBlock_rect = new Rect();
+            Rect otherBlock_rect = new Rect();
 
-            playerBox_rect.X = playerBox.Margin.Left;
-            playerBox_rect.Y = playerBox.Margin.Top;
-            playerBox_rect.Width = playerBox.ActualWidth;
-            playerBox_rect.Height = playerBox.ActualHeight;
+            plrBlock_rect.X = plrBlock.Margin.Left;
+            plrBlock_rect.Y = plrBlock.Margin.Top;
+            plrBlock_rect.Width = plrBlock.ActualWidth;
+            plrBlock_rect.Height = plrBlock.ActualHeight;
 
 
-            objB_rect.X = objB.Margin.Left;
-            objB_rect.Y = objB.Margin.Top;
-            objB_rect.Width = objB.ActualWidth;
-            objB_rect.Height = objB.ActualHeight;
+            otherBlock_rect.X = otherBlock.Margin.Left;
+            otherBlock_rect.Y = otherBlock.Margin.Top;
+            otherBlock_rect.Width = otherBlock.ActualWidth;
+            otherBlock_rect.Height = otherBlock.ActualHeight;
 
-            if ((objB_rect.X < (playerBox_rect.X + playerBox_rect.Width) &&
-               (objB_rect.X + objB_rect.Width) > playerBox_rect.X))
+            if ((otherBlock_rect.X < (plrBlock_rect.X + plrBlock_rect.Width) &&
+               (otherBlock_rect.X + otherBlock_rect.Width) > plrBlock_rect.X))
                 if (
-                 (objB_rect.Y < (playerBox_rect.Y + playerBox_rect.Height)) &&
-                 (objB_rect.Y + objB_rect.Height) > playerBox_rect.Y)
+                 (otherBlock_rect.Y < (plrBlock_rect.Y + plrBlock_rect.Height)) &&
+                 (otherBlock_rect.Y + otherBlock_rect.Height) > plrBlock_rect.Y)
                 {
                     // punasen palikan liikuttelu 
-                    if (objB.Name == "rctPlayer" && trgMove == false)
+                    if (otherBlock.Name == "rctPlayer" && trgMove == false)
                     {
                         trgMove = true;
                         //vasemmalle
-                        if ((playerBox_rect.X + playerBox_rect.Width) <= objB_rect.X)
+                        if ((plrBlock_rect.X + plrBlock_rect.Width) <= otherBlock_rect.X)
                         {
                             TargetMove = 2;
                         }
                         //ylös
-                        else if (playerBox_rect.Y + playerBox_rect.Height <= objB_rect.Y)
+                        else if (plrBlock_rect.Y + plrBlock_rect.Height <= otherBlock_rect.Y)
                         {
                             TargetMove = 4;
                         }
                         //alas
-                        else if (playerBox_rect.Y >= objB_rect.Y + objB_rect.Height )
+                        else if (plrBlock_rect.Y >= otherBlock_rect.Y + otherBlock_rect.Height )
                         {
                             TargetMove = 3;
                         }
@@ -79,7 +79,7 @@ namespace Something.Classes
                         { TargetMove = 1; }
 
                     }
-                    else if (objB.Name == "rctGoal") { winCondition = true; }
+                    else if (otherBlock.Name == "rctGoal") { winCondition = true; }
 
 
                     return false;
