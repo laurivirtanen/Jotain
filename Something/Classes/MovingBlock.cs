@@ -6,38 +6,27 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace Something.Classes
 {
-    public abstract class MovingBlock : INotifyPropertyChanged
+    public class MovingBlock : BasicBlock, INotifyPropertyChanged
     {
-        public double moving = 5;
-        public double Height { get; set; }
-        public double Width { get; set; }
-        public bool winCondition = false;
 
-        private Thickness placement;
-        public Thickness Placement
+        public int Amount;
+
+        public MovingBlock(Thickness plc, double hgt, double wdt)
         {
-            get
-            {
-                return placement;
-            }
-            set
-            {
-                placement = value;
-                RaisePropertyChanged();
-            }
+            Placement = plc;
+            Height = hgt;
+            Width = wdt;
         }
+       
+
+
+
+
+
         
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
     }
 }

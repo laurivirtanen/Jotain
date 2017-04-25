@@ -20,8 +20,9 @@ namespace Something.Levels
     /// <summary>
     /// Interaction logic for PageTest.xaml
     /// </summary>
-    public partial class Level5 : Page, ISwitchable
+    public partial class Level5 : Page
     {
+
         DispatcherTimer timer = new DispatcherTimer();
         List<Shape> mapBlocks = new List<Shape>();
         List<SkewTransform> Lights = new List<SkewTransform>();
@@ -35,7 +36,7 @@ namespace Something.Levels
         bool[] winBool = new bool[2];
 
         Player player1 = new Player(new Thickness(32, 256, 0, 0), 32, 32);
-        public BasicBlock target = new BasicBlock(new Thickness(500, 500, 0, 0), 32, 32);
+        public MovingBlock target = new MovingBlock(new Thickness(500, 500, 0, 0), 32, 32);
 
         private bool trgMove = false;
         private int TargetMove = 0;
@@ -48,6 +49,7 @@ namespace Something.Levels
         {
             try
             {
+
                 InitializeComponent();
                 RotateTest = 0;
                 timer.Tick += new EventHandler(GameLoop);
@@ -88,9 +90,9 @@ namespace Something.Levels
             mapBlocks.Add(rctBottomStop6);
             mapBlocks.Add(rctMid);
             mapBlocks.Add(rctMid_Copy);
-            mapBlocks.Add(LeftWall);
-            mapBlocks.Add(RightWall);
-            mapBlocks.Add(Ceiling);
+            mapBlocks.Add(rctLeftWall);
+            mapBlocks.Add(rctRightWall);
+            mapBlocks.Add(rctCeiling);
             mapBlocks.Add(rctRight);
             mapBlocks.Add(rctTarget);
 
@@ -133,6 +135,7 @@ namespace Something.Levels
 
         }
 
+        
         // TODO FIX THIS into a class 
         private void RedBlock()
         {
@@ -186,11 +189,10 @@ namespace Something.Levels
         }
 
 
-        // TODO Figure out how to get 
-        // colortest1.offset = pulsers[0] and other similar things out of here
+        
         private void GoalPulse()
         {
-            CollisionDetect(rctPlayer, BlueGoal);
+            CollisionDetect(rctPlayer, rctBlueGoal);
             CollisionDetect(rctTarget, rctGoal);
 
             Pulser.Pulsing(Pulsers, PulseBool);
@@ -208,17 +210,17 @@ namespace Something.Levels
             rdL.Offset = win[0];
             blL.Offset = win[1];
 
-            if (Light.Opacity > 0.5)
+            if (rctLight.Opacity > 0.5)
             {
-                Light.Opacity -= 0.03;
+                rctLight.Opacity -= 0.03;
             }
-            else { Light.Opacity += 0.03; }
+            else { rctLight.Opacity += 0.03; }
 
         }
 
 
 
-
+        //DispatcherTimer tick goes through these methods
         private void GameLoop(object sender, EventArgs e)
         {
             try
@@ -234,7 +236,7 @@ namespace Something.Levels
 
         }
 
-        // TODO make it better
+        // TODO compares collisions with all items in mapBlocks list
         private bool CollisionTest(Shape player)
         {
             bool dum = true;
@@ -248,7 +250,7 @@ namespace Something.Levels
             return dum;
         }
 
-        // not important, 
+        // Moves the "lights" just barely with the player movement
         private void LightTransform(List<SkewTransform> angle, int maxAngle, int minAngle, bool side)
         {
             foreach (var item in angle)
@@ -266,6 +268,8 @@ namespace Something.Levels
                 }
             }
         }
+
+        //What happens when winconditions are met
         private void EndLevel()
         {
             if (blL.Offset > 0.6 && rdL.Offset > 0.6)
@@ -275,53 +279,60 @@ namespace Something.Levels
                 player1.winCondition = false;
                 target.winCondition = false;
                 timer.Stop();
+
+                // changes txtLevel
                 daa.Content = new Level2();
             }
         }
 
-
-        // TODO Make it prettier
-        private bool CollisionDetect(Shape playerBox, Shape objB)
+        
+        /// <summary>
+        /// 
+        /// Collision comparing. Its not workin perfectly 
+        /// 
+        /// TODO - Make it more precise
+        /// </summary>
+        private bool CollisionDetect(Shape plrBlock, Shape otherBlock)
         {
 
-            Rect playerBox_rect = new Rect();
-            Rect objB_rect = new Rect();
+            Rect plrBlock_rect = new Rect();
+            Rect otherBlock_rect = new Rect();
 
-            playerBox_rect.X = playerBox.Margin.Left;
-            playerBox_rect.Y = playerBox.Margin.Top;
-            playerBox_rect.Width = playerBox.ActualWidth;
-            playerBox_rect.Height = playerBox.ActualHeight;
+            plrBlock_rect.X = plrBlock.Margin.Left;
+            plrBlock_rect.Y = plrBlock.Margin.Top;
+            plrBlock_rect.Width = plrBlock.ActualWidth;
+            plrBlock_rect.Height = plrBlock.ActualHeight;
 
 
-            objB_rect.X = objB.Margin.Left;
-            objB_rect.Y = objB.Margin.Top;
-            objB_rect.Width = objB.ActualWidth;
-            objB_rect.Height = objB.ActualHeight;
+            otherBlock_rect.X = otherBlock.Margin.Left;
+            otherBlock_rect.Y = otherBlock.Margin.Top;
+            otherBlock_rect.Width = otherBlock.ActualWidth;
+            otherBlock_rect.Height = otherBlock.ActualHeight;
 
-            if ((objB_rect.X < (playerBox_rect.X + playerBox_rect.Width) &&
-               (objB_rect.X + objB_rect.Width) > playerBox_rect.X))
+            if ((otherBlock_rect.X < (plrBlock_rect.X + plrBlock_rect.Width) &&
+               (otherBlock_rect.X + otherBlock_rect.Width) > plrBlock_rect.X))
                 if (
-                 (objB_rect.Y < (playerBox_rect.Y + playerBox_rect.Height)) &&
-                 (objB_rect.Y + objB_rect.Height) > playerBox_rect.Y)
+                 (otherBlock_rect.Y < (plrBlock_rect.Y + plrBlock_rect.Height)) &&
+                 (otherBlock_rect.Y + otherBlock_rect.Height) > plrBlock_rect.Y)
                 {
-                    if (objB.Name == "rctTarget")
+                    if (otherBlock.Name == "rctTarget")
                     {
                         // punasen palikan liikuttelu 
                         if (trgMove == false)
                         {
                             trgMove = true;
                             //vasemmalle
-                            if ((playerBox_rect.X + playerBox_rect.Width - 4) <= objB_rect.X)
+                            if ((plrBlock_rect.X + plrBlock_rect.Width - 4) <= otherBlock_rect.X)
                             {
                                 TargetMove = 2;
                             }
                             //ylös
-                            else if (playerBox_rect.Y + playerBox_rect.Height - 4 <= objB_rect.Y)
+                            else if (plrBlock_rect.Y + plrBlock_rect.Height - 4 <= otherBlock_rect.Y)
                             {
                                 TargetMove = 4;
                             }
                             //alas
-                            else if (playerBox_rect.Y >= objB_rect.Y + objB_rect.Height - 4)
+                            else if (plrBlock_rect.Y >= otherBlock_rect.Y + otherBlock_rect.Height - 4)
                             {
                                 TargetMove = 3;
                             }
@@ -332,16 +343,16 @@ namespace Something.Levels
 
                     }
 
-                    else if (playerBox.Name == "rctTarget")
+                    else if (plrBlock.Name == "rctTarget")
                     {
 
-                        if (objB.Name == "rctGoal") { winBool[0] = true; }
+                        if (otherBlock.Name == "rctGoal") { winBool[0] = true; }
 
-                        else if (objB.Name != "rctPlayer") { trgMove = false; }
+                        else if (otherBlock.Name != "rctPlayer") { trgMove = false; }
                     }
-                    else if (playerBox.Name == "rctPlayer")
+                    else if (plrBlock.Name == "rctPlayer")
                     {
-                        if (objB.Name == "BlueGoal")
+                        if (otherBlock.Name == "rctBlueGoal")
                         { winBool[1] = true; }
                         else { winBool[1] = false; }
                     }
@@ -357,30 +368,7 @@ namespace Something.Levels
 
         }
 
-
-
-        // Keydown functions
-        /* private void Window_KeyDown(object sender, KeyEventArgs e)
-         {
-             switch (e.Key)
-             {
-                 //TODO remove or something this
-                 case Key.Q:
-                     RotateTest += 45;
-                     cnvRotate.Angle = RotateTest;
-                     break;
-
-                 case Key.Space:
-                     MessageBox.Show("WORKING");
-                     IsGrounded = true;
-                     break;
-                 case Key.Escape:
-                     this.timer.Stop();
-                     break;
-
-
-             }
-         }*/
+        
 
 
         //TODO Check this out
@@ -395,16 +383,11 @@ namespace Something.Levels
 
         }
 
+        
 
 
-        // works perfectly
 
-
-        #region ISwitchable Members
-        public void UtilizeState(object state)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
+    
+        
     }
 }

@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Windows.Navigation;
 /// <summary>
 /// Song from (https://soundcloud.com/laserost)  (http://www.youtube.com/user/Manofunctional).
 /// </summary>
@@ -15,30 +17,30 @@ using System.Windows.Threading;
 namespace Something
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Level1
     /// </summary>
     public partial class Level1 : Window
     {
 
-        DispatcherTimer timer = new DispatcherTimer();
+        public DispatcherTimer timer = new DispatcherTimer(DispatcherPriority.Render);
         List<Shape> mapBlocks = new List<Shape>();
         List<SkewTransform> Lights = new List<SkewTransform>();
         PulsingLight Pulser = new PulsingLight();
-
         //Pulsebool and pulsers are used for pulsing or changing lights
         bool[] PulseBool = new bool[4];
         double[] Pulsers = new double[4];
         // win and winBool are used to check if win conditions match
         double[] win = new double[2];
         bool[] winBool = new bool[2];
+        
+        
 
         public Player player = new Player(new Thickness(32, 300, 0, 0), 32, 32);
-        public BasicBlock target = new BasicBlock(new Thickness(20, 155, 0, 0), 32, 32);
+        public MovingBlock target = new MovingBlock(new Thickness(20, 155, 0, 0), 32, 32);
 
         private bool IsGrounded = false;
-        public bool IsPaused = true;
         public double RotateTest { get; set; }
-
+        
 
         public Level1()
         {
@@ -61,7 +63,6 @@ namespace Something
       
         public void InitStuff()
         {
-
             Pulsers[0] = colorTest1.Offset;
             Pulsers[1] = colorTest1.Offset;
             Pulsers[2] = enmColor.Offset;
@@ -70,6 +71,7 @@ namespace Something
             {
                 PulseBool[i] = true;
             }
+            
             cnvBase.Background = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
             rctPlayer.DataContext = player;
             rctTarget.DataContext = target;
@@ -79,18 +81,15 @@ namespace Something
             mapBlocks.Add(rctBottomStop);
             mapBlocks.Add(rctMid);
             mapBlocks.Add(rctMid_Copy);
-            mapBlocks.Add(LeftWall);
-            mapBlocks.Add(RightWall);
-            mapBlocks.Add(Ceiling);
+            mapBlocks.Add(rctLeftWall);
+            mapBlocks.Add(rctRightWall);
+            mapBlocks.Add(rctCeiling);
             mapBlocks.Add(rctRight);
             mapBlocks.Add(rctTarget);
             //"lights"
             Lights.Add(rctSkew);
             Lights.Add(rctSkew1);
             Lights.Add(rctSkew2);
-
-            jump.Stop();
-            musicPlayer.Play();
 
         }
 
@@ -103,7 +102,6 @@ namespace Something
                 if (CollisionTest(rctPlayer)) { LightTransform(Lights, 50, -50, true); }
                 else { player.MovePlayer(1); player.IsGrounded = true; }
                 
-
             }
             if (Keyboard.IsKeyDown(Key.A))
             {
@@ -179,7 +177,7 @@ namespace Something
         // colortest1.offset = pulsers[0] and other similar things out of here
         private void GoalPulse()
         {
-            player.CollisionDetect(rctPlayer, BlueGoal);
+            player.CollisionDetect(rctPlayer, rctBlueGoal);
             target.CollisionDetect(rctTarget, rctGoal);
             
             Pulser.Pulsing(Pulsers, PulseBool);
@@ -200,10 +198,10 @@ namespace Something
             rdL.Offset = win[0];
             blL.Offset = win[1];
 
-            if(Light.Opacity > 0.5)
+            if(rctLight.Opacity > 0.5)
             {
-                Light.Opacity -= 0.03;
-            }else { Light.Opacity += 0.03; }
+                rctLight.Opacity -= 0.03;
+            }else { rctLight.Opacity += 0.03; }
 
         }
 
@@ -218,6 +216,7 @@ namespace Something
                 GoalPulse();
                 Player();
                 RedBlock();
+
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
 
@@ -232,7 +231,16 @@ namespace Something
                 player.winCondition = false;
                 target.winCondition = false;
                 IsGrounded = true;
-                daa.Content = new Level2();
+                /*if(txtLevel > kaikki.Count)
+                {
+                    txtLevel = 0;
+                }
+                frmLevel.Content = kaikki[txtLevel+1];
+                txtLevel++;
+                */
+                // frmLevel.Content = new Level2();
+                frmLevel.Content = new Level2();
+                Config.txtLevel = 1;
             }
         }
 
@@ -282,17 +290,18 @@ namespace Something
                 case Key.Q:
                     RotateTest += 45;
                     cnvRotate.Angle = RotateTest;
+                    frmLevel.Content = new Level2();
                     break;
 
                 case Key.Space:
 
                     IsGrounded = true;
 
-                    if (IsPaused == true)
+                    if (Config.Paused == true)
                     {
-                        IsPaused = false;
-                        musicPlayer.Play();
-                        PauseScreen.Visibility = Visibility.Hidden;
+                        this.Cursor = Cursors.None;
+                        Config.Paused = false;
+                        cnvPause.Visibility = Visibility.Hidden;
                         timer.Start();
                     }
 
@@ -300,32 +309,31 @@ namespace Something
 
                 case Key.Escape:
 
-                    if (IsPaused == false)
+                    if (Config.Paused == false)
                     {
-                        
-                        musicPlayer.Pause();
-                        pauseMusic.Play();
-                        PauseScreen.Visibility = Visibility.Visible;
-                        IsPaused = true;
+
+                        this.Cursor = Cursors.Arrow;
+                        mdePause.Play();
+                        cnvPause.Visibility = Visibility.Visible;
+                        Config.Paused = true;
                         timer.Stop();
                     }
                     else
                     {
-                        IsPaused = false;
+                        Config.Paused = false;
                     }
                     break;
 
                 case Key.R:
 
-                    if (IsPaused == true)
+                    if (Config.Paused == true)
                     {
                         Level1 retry = new Level1();
                         retry.Show();
                         this.Close();
-                        PauseScreen.Visibility = Visibility.Hidden;
-                        pauseMusic.Stop();
-                        musicPlayer.Play();
-                        IsPaused = false;
+                        cnvPause.Visibility = Visibility.Hidden;
+                        mdePause.Stop();
+                        Config.Paused = false;
                         timer.Start();
                     }
                     break;
@@ -338,47 +346,73 @@ namespace Something
         {
 
             IsGrounded = player.Jumping(0);
-            if (player.jumpCounter == 1) { Collision.Stop(); jump.Play(); }
+            if (player.jumpCounter == 1) { }
             if (CollisionTest(rctPlayer)) { }
-            else { IsGrounded = player.Jumping(1); player.jumpCounter = 45; jump.Stop(); Collision.Play(); }
+            else { IsGrounded = player.Jumping(1); player.jumpCounter = 45; }
 
         }
 
 
 
         // works perfectly
-        private void Quit_Game(object sender, RoutedEventArgs e)
+        public void Quit_Game(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
 
         
-        private void Continue(object sender, RoutedEventArgs e)
+        public void Continue(object sender, RoutedEventArgs e)
         {
-            PauseScreen.Visibility = Visibility.Hidden;
-            pauseMusic.Stop();
-            musicPlayer.Play();
-            IsPaused = false;
+            cnvPause.Visibility = Visibility.Hidden;
+            mdePause.Stop();
+            Config.Paused = false;
             timer.Start();
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public void Button_Click(object sender, RoutedEventArgs e)
         {
             // restart rctTargetng
-            if (daa.Content == null)
+            if (frmLevel.Content == null)
             {
                 Level1 retry = new Level1();
+                frmLevel.Content = null;
                 retry.Show();
                 Close();
             }
+            else
+            {
+                switch (Config.txtLevel)
+                {
+                    case 1:
+                        frmLevel.Content = new Level2();
+                        break;
+                    case 2:
+                        frmLevel.Content = new Level3();
+                        break;
+                    case 3:
+                        frmLevel.Content = new Level4();
+                        break;
+                    case 4:
+                        frmLevel.Content = new Level5();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             
-            PauseScreen.Visibility = Visibility.Hidden;
-            pauseMusic.Stop();
-            musicPlayer.Play();
-            IsPaused = false;
+            cnvPause.Visibility = Visibility.Hidden;
+            mdePause.Stop();
+            Config.Paused = false;
             timer.Start();
+        }
+
+        private void mdeMusic_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            mdeMusic.Position = TimeSpan.FromMilliseconds(0);
+            
         }
     }
 }

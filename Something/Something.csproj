@@ -66,10 +66,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\MovingBlock.cs" />
-    <Compile Include="Classes\Switcher.cs" />
-    <Compile Include="Control\UCTest.cs" />
-    <Compile Include="ISwitchable.cs" />
+    <Compile Include="Classes\Config.cs" />
+    <Compile Include="Classes\BasicBlock.cs" />
     <Compile Include="Levels\Level2.xaml.cs">
       <DependentUpon>Level2.xaml</DependentUpon>
     </Compile>
@@ -81,9 +79,6 @@
     </Compile>
     <Compile Include="Levels\Level3.xaml.cs">
       <DependentUpon>Level3.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WPFPageSwitch.xaml.cs">
-      <DependentUpon>WPFPageSwitch.xaml</DependentUpon>
     </Compile>
     <Page Include="Levels\Level1.xaml">
       <SubType>Designer</SubType>
@@ -117,7 +112,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Classes\BasicBlock.cs" />
+    <Compile Include="Classes\MovingBlock.cs" />
     <Compile Include="Classes\Player.cs" />
     <Compile Include="Classes\PulsingLight.cs" />
     <Compile Include="Levels\Level1.xaml.cs">
@@ -130,10 +125,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="WPFPageSwitch.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -153,7 +144,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -166,16 +156,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sound\Navigation_Button_19.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Sound\space.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sound\Telemetry_13.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Images\otus.jpg" />
     <Resource Include="Images\Icon.ico" />
     <Resource Include="Icon.ico" />
     <Resource Include="Images\ICON2.ico" />
-    <Content Include="Sound\BB_DRL__086.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

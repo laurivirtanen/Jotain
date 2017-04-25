@@ -8,14 +8,12 @@ using Something.Classes;
 
 namespace Something
 {
-    public class Player : MovingBlock, INotifyPropertyChanged
+    public class Player : BasicBlock, INotifyPropertyChanged
     {
         public double gravity = 5;
         public int jumpCounter = 0;
         double jump;
         public bool IsGrounded;
-        public int TargetMove = 0;
-        public bool trgMove;
         
 
         public Player(Thickness plc, double hgt, double wdt)
@@ -82,7 +80,7 @@ namespace Something
 
 
 
-        public bool CollisionDetect(Shape playerBox, Shape objB)
+        public override bool CollisionDetect(Shape playerBox, Shape objB)
         {
 
             Rect playerBox_rect = new Rect();
@@ -133,7 +131,7 @@ namespace Something
 
                     }
                     
-                    else if (objB.Name == "BlueGoal")
+                    else if (objB.Name == "rctBlueGoal")
                     
                         {  winCondition = true; }
                     
@@ -149,7 +147,7 @@ namespace Something
 
         
 
-
+    
 
         // all Things Blocky baseclass to be implemented
 

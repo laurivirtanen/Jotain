@@ -6,6 +6,16 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Something", "Something\Something.csproj", "{00C56FC8-4F66-4348-850E-7F34DC49F70D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docut", "Docut", "{3A702ABA-1849-4390-B4F5-37A622866AC6}"
+	ProjectSection(SolutionItems) = preProject
+		Dokut\Lauri-Virtanen-TTOS0300-Loppuraportti.docx = Dokut\Lauri-Virtanen-TTOS0300-Loppuraportti.docx
+		Dokut\lvl0.png = Dokut\lvl0.png
+		Dokut\Lvl1.PNG = Dokut\Lvl1.PNG
+		Dokut\lvl2-1.PNG = Dokut\lvl2-1.PNG
+		Dokut\lvl2.PNG = Dokut\lvl2.PNG
+		Dokut\lvl3.PNG = Dokut\lvl3.PNG
+		Dokut\lvl4.PNG = Dokut\lvl4.PNG
+		Dokut\TTOS0300__suunnittelu.docx = Dokut\TTOS0300__suunnittelu.docx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

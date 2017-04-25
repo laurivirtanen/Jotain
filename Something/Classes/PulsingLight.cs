@@ -7,7 +7,9 @@ using System.Windows.Media;
 
 namespace Something.Classes
 {
-    
+    /// <summary>
+    /// This class's purpose is to make stuff change color in the game
+    /// </summary>
     class PulsingLight
     {
         double pulse1 = 0.02;

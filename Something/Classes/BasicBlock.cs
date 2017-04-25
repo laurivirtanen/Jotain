@@ -10,24 +10,30 @@ using System.Windows.Shapes;
 
 namespace Something.Classes
 {
-    public class BasicBlock : MovingBlock, INotifyPropertyChanged
+    public abstract class BasicBlock : INotifyPropertyChanged
     {
-
+        public double moving = 5;
         public bool trgMove = false;
         public int TargetMove = 0;
-        public int Amount;
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public bool winCondition = false;
 
-        public BasicBlock(Thickness plc, double hgt, double wdt)
+        private Thickness placement;
+        public Thickness Placement
         {
-            Placement = plc;
-            Height = hgt;
-            Width = wdt;
+            get
+            {
+                return placement;
+            }
+            set
+            {
+                placement = value;
+                RaisePropertyChanged();
+            }
         }
 
-
-
-
-        public bool CollisionDetect(Shape playerBox, Shape objB)
+        public virtual bool CollisionDetect(Shape playerBox, Shape objB)
         {
 
             Rect playerBox_rect = new Rect();
@@ -55,17 +61,17 @@ namespace Something.Classes
                     {
                         trgMove = true;
                         //vasemmalle
-                        if ((playerBox_rect.X + playerBox_rect.Width - 4) <= objB_rect.X)
+                        if ((playerBox_rect.X + playerBox_rect.Width) <= objB_rect.X)
                         {
                             TargetMove = 2;
                         }
                         //ylös
-                        else if (playerBox_rect.Y + playerBox_rect.Height - 4 <= objB_rect.Y)
+                        else if (playerBox_rect.Y + playerBox_rect.Height <= objB_rect.Y)
                         {
                             TargetMove = 4;
                         }
                         //alas
-                        else if (playerBox_rect.Y >= objB_rect.Y + objB_rect.Height - 4)
+                        else if (playerBox_rect.Y >= objB_rect.Y + objB_rect.Height )
                         {
                             TargetMove = 3;
                         }
@@ -75,7 +81,7 @@ namespace Something.Classes
                     }
                     else if (objB.Name == "rctGoal") { winCondition = true; }
 
-                  
+
                     return false;
                 }
 
@@ -87,9 +93,14 @@ namespace Something.Classes
 
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
-
-
-        
+        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

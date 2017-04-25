@@ -9,11 +9,11 @@ namespace Something
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, ISwitchable
+    public partial class MainWindow : Window
     {
         Random rnd = new Random();
        
-        bool Lights;
+        public bool Lights;
         DispatcherTimer timer = new DispatcherTimer();
 
         public MainWindow()
@@ -83,12 +83,6 @@ namespace Something
             this.Close();
         }
         
-
-        #region ISwitchable Members
-        public void UtilizeState(object state)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
+        
     }
 }
